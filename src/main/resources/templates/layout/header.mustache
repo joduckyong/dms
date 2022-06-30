@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>LX SandBox | 테이블 형태</title>
+    <title>LX DMS | 테이블 형태</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +26,7 @@
       <div class="main_container">    
         <div class="col-md-3 left_col menu_fixed">
           <div class="left_col scroll-view">
-            <div class="navbar nav_title"><a class="site_title" href="/"><i class="fa fa-paw"> </i><span>LX SandBox </span></a></div>
+            <div class="navbar nav_title"><a class="site_title" href="/"><i class="fa fa-paw"> </i><span>LX DMS </span></a></div>
             <div class="clearfix"> </div>
             <!--div class="profile clearfix">
               <div class="profile_pic"><img class="img-circle profile_img" src="/img/img.jpg" alt="..."></div>
@@ -37,38 +37,40 @@
             <div class="main_menu_side hidden-print main_menu" id="sidebar-menu">
               <div class="menu_section">
                 <ul class="nav side-menu">
-                   <li><a>분석 환경 관리<span class="fa fa-chevron-down"> </span></a>
+                   <li><a>메타테이블 관리<span class="fa fa-chevron-down"> </span></a>
                      <ul class="nav child_menu">
-                       <li><a href="/sandbox/env/dockerImage/list">Docker Image 관리</a></li>
-                       <li><a href="/sandbox/env/analysisImage/list">분석 Image 관리</a></li>
-                       <li><a href="/sandbox/env/server/list">서버 관리</a></li>
+                       <li><a href="/metaTable/list">메타테이블 관리</a></li>
+                       <li><a href="/metaTable/metaInfo">메타정보 항목관리</a></li>
                      </ul>
                    </li>
-                   <li><a>분석 모델 정보 관리<span class="fa fa-chevron-down"> </span></a>
+                   <li><a>Adapter 관리<span class="fa fa-chevron-down"> </span></a>
                      <ul class="nav child_menu">
-                       <li><a href="/sandbox/info/infoPreprocessing/list">전처리 모델</a></li>
-                       <li><a href="/sandbox/info/infoAnalysisModel/list">분석 모델</a></li>
+                       <li><a href="/adaptor/config">Adapter 설정</a></li>
+                       <li><a href="/adaptor/instance">Instance 조회</a></li>
+                       <li><a href="/adaptor/connectionType">접속유형 항목관리</a></li>
+                       <li><a href="/adaptor/type">Adapter 유형관리</a></li>
+                       <li><a href="/adaptor/preProcessList">전처리 리스트</a></li>
                      </ul>
                    </li>
-                   <li><a>분석 모델 관리<span class="fa fa-chevron-down"> </span></a>
+                   <li><a>수집오류<span class="fa fa-chevron-down"> </span></a>
                      <ul class="nav child_menu">
-                       <li><a href="/sandbox/model/modelPreprocessing/list">전처리 모델</a></li>
-                       <li><a href="/sandbox/model/modelAnalysisModel/list">분석 모델</a></li>
+                       <li><a href="/collectionError/list">수집오류 리스트</a></li>
                      </ul>
                    </li>
-                   <li><a>이미지 데이터셋 관리<span class="fa fa-chevron-down"> </span></a>
+                   <li><a>데이터 셋<span class="fa fa-chevron-down"> </span></a>
                      <ul class="nav child_menu">
-                       <li><a href="/sandbox/dataset/imageDataset/list">이미지 데이터셋 관리</a></li>
+                       <li><a href="/dataSet/list">데이터 셋 리스트</a></li>
                      </ul>
                    </li>
-                   <li><a>분석 시나리오 관리<span class="fa fa-chevron-down"> </span></a>
+                   <li><a>모니터링<span class="fa fa-chevron-down"> </span></a>
                      <ul class="nav child_menu">
-                       <li><a href="/sandbox/scenario/analysisScenario/list">분석 시나리오 관리</a></li>
+                       <li><a href="/monitoring/list">모니터링</a></li>
                      </ul>
                    </li>
-                   <li><a>분석 샌드박스 관리<span class="fa fa-chevron-down"> </span></a>
+                   <li><a>시스템 관리<span class="fa fa-chevron-down"> </span></a>
                      <ul class="nav child_menu">
-                       <li><a href="/sandbox/sand/analysisSandbox/list">분석 샌드박스 관리</a></li>
+                       <li><a href="/systemMgmt/codeList">코드관리</a></li>
+                       <li><a href="/systemMgmt/classificationMgmt">분류관리</a></li>
                      </ul>
                    </li>
                 </ul>

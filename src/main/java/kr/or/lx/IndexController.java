@@ -10,6 +10,6 @@ public class IndexController {
     @GetMapping("/")
     public String index() {
         
-        return "dms/env/dockerImage/list";
+        return "metaTable/list";
     }
 }
