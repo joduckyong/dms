@@ -1,4 +1,4 @@
-package kr.or.lx.dms.controller;
+package kr.or.lx.dms.metaTable.controller;
 
 import java.util.Map;
 
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.or.lx.common.ApiService;
 import lombok.extern.slf4j.Slf4j;
 
-@RequestMapping("collectionError")
+@RequestMapping("metaTable")
 @Slf4j
 @Controller
-public class CollectionErrorController {
+public class MetaTableController {
 	
     @Value("${dms.api.url}")
     private String dmsApiUrl;	
@@ -31,20 +31,20 @@ public class CollectionErrorController {
 	public String list(ModelMap model) throws Exception{
 		
 		
-		return "dms/collectionError/list";
+		return "dms/metaTable/list";
 	}	
 	
-	@GetMapping("/detail")
-	public String detail(ModelMap model) throws Exception{
+	@GetMapping("/metaInfo")
+	public String metaInfo(ModelMap model) throws Exception{
 		
 		
-		return "dms/collectionError/detail";
+		return "dms/metaTable/metaInfo";
 	}	
 	
 	@ResponseBody
 	@PostMapping("{apiId}")
-	public Object collectionErrorApi(@RequestBody Map<String, Object> param, ModelMap model) throws Exception{
-		log.info("collectionErrorApi");
+	public Object metaTableApi(@RequestBody Map<String, Object> param, ModelMap model) throws Exception{
+		log.info("metaTableApi");
 		
 		String url = dmsApiUrl+param.get("url");
 		

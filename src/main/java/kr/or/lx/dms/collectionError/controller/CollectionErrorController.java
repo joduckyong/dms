@@ -1,4 +1,4 @@
-package kr.or.lx.dms.controller;
+package kr.or.lx.dms.collectionError.controller;
 
 import java.util.Map;
 
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.or.lx.common.ApiService;
 import lombok.extern.slf4j.Slf4j;
 
-@RequestMapping("dataSet")
+@RequestMapping("collectionError")
 @Slf4j
 @Controller
-public class DataSetController {
+public class CollectionErrorController {
 	
     @Value("${dms.api.url}")
     private String dmsApiUrl;	
@@ -31,20 +31,20 @@ public class DataSetController {
 	public String list(ModelMap model) throws Exception{
 		
 		
-		return "dms/dataSet/list";
+		return "dms/collectionError/list";
 	}	
 	
 	@GetMapping("/detail")
 	public String detail(ModelMap model) throws Exception{
 		
 		
-		return "dms/dataSet/detail";
+		return "dms/collectionError/detail";
 	}	
 	
 	@ResponseBody
 	@PostMapping("{apiId}")
-	public Object dataSetApi(@RequestBody Map<String, Object> param, ModelMap model) throws Exception{
-		log.info("dataSetApi");
+	public Object collectionErrorApi(@RequestBody Map<String, Object> param, ModelMap model) throws Exception{
+		log.info("collectionErrorApi");
 		
 		String url = dmsApiUrl+param.get("url");
 		

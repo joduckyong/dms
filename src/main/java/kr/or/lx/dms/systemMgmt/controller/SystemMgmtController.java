@@ -1,4 +1,4 @@
-package kr.or.lx.dms.controller;
+package kr.or.lx.dms.systemMgmt.controller;
 
 import java.util.Map;
 
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import kr.or.lx.common.ApiService;
 import lombok.extern.slf4j.Slf4j;
 
-@RequestMapping("metaTable")
+@RequestMapping("systemMgmt")
 @Slf4j
 @Controller
-public class MetaTableController {
+public class SystemMgmtController {
 	
     @Value("${dms.api.url}")
     private String dmsApiUrl;	
@@ -27,24 +27,38 @@ public class MetaTableController {
 	@Autowired
 	private ApiService<?> apiService;
 	
-	@GetMapping("/list")
-	public String list(ModelMap model) throws Exception{
+	@GetMapping("/codeList")
+	public String codeList(ModelMap model) throws Exception{
 		
 		
-		return "dms/metaTable/list";
+		return "dms/systemMgmt/codeList";
 	}	
 	
-	@GetMapping("/metaInfo")
-	public String metaInfo(ModelMap model) throws Exception{
+	@GetMapping("/codeAdd")
+	public String codeAdd(ModelMap model) throws Exception{
 		
 		
-		return "dms/metaTable/metaInfo";
+		return "dms/systemMgmt/codeAdd";
+	}	
+	
+	@GetMapping("/codeDetail")
+	public String codeDetail(ModelMap model) throws Exception{
+		
+		
+		return "dms/systemMgmt/codeDetail";
+	}	
+	
+	@GetMapping("/classificationMgmt")
+	public String classificationMgmt(ModelMap model) throws Exception{
+		
+		
+		return "dms/systemMgmt/classificationMgmt";
 	}	
 	
 	@ResponseBody
 	@PostMapping("{apiId}")
-	public Object metaTableApi(@RequestBody Map<String, Object> param, ModelMap model) throws Exception{
-		log.info("metaTableApi");
+	public Object systemMgmtApi(@RequestBody Map<String, Object> param, ModelMap model) throws Exception{
+		log.info("systemMgmtApi");
 		
 		String url = dmsApiUrl+param.get("url");
 		

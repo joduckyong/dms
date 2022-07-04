@@ -1,4 +1,4 @@
-package kr.or.lx.dms.controller;
+package kr.or.lx.dms.adaptor.controller;
 
 import java.util.Map;
 
