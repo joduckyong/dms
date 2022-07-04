@@ -41,12 +41,11 @@
 									<h2>Adaptor 정보</h2>
 								</div>
 								<div class="clearfix col-md-1">
-									<button class="btn btn-sm btn-primary col-md"
-										onclick="adaptorConfigAdd();">등록</button>
+									<button class="btn btn-sm btn-primary col-md" onclick="addModal();">등록</button>
 								</div>
 								<div class="x_content">
 									<div class="table_responsive">
-										<div class="talbel_total mb-2" id="adaptorConfigCnt">총1개</div>
+										<div class="talbel_total mb-2">총<span id="total_count"></span>개</div>
 										<table class="table table-striped" id="adaptorConfigData">
 											<colgroup>
 												<col width="55px">
@@ -61,21 +60,13 @@
 													<th>인스턴스 수</th>
 												</tr>
 											</thead>
-											<tbody>
+											<tbody id="dpIngestAdapter">
 											</tbody>
 										</table>
-										<div class="nav justify-content-center">
-											<ul class="pagination">
-												<li class="page-item"><a class="page-link" href="#">&lt;
-												</a></li>
-												<li class="page-item"><a class="page-link" href="#">1
-												</a></li>
-												<li class="page-item"><a class="page-link" href="#">2
-												</a></li>
-												<li class="page-item"><a class="page-link" href="#">&gt;
-												</a></li>
-											</ul>
-										</div>
+					                    <div class="nav justify-content-center"> 
+										  <ul id="pagingul" class="pagination">
+										  </ul>                    
+					                    </div>   
 									</div>
 								</div>
 							</div>
@@ -88,6 +79,54 @@
 	</div>
 </div>
 
+<!-- code_modal -->
+<div class="modal fade add_modal" id="add_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" style="max-width: 550px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel"><span id="modelLabel"></span></h4>
+        <button class="close" type="button" data-dismiss="modal"></button><span aria-hidden="true">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left">
+          <div class="row">
+            <div class="form-group row col-12 col-md-12">
+              <label class="control-label">Adapter 명</label>
+              <div class="form-control_box">
+                <input class="form-control" type="text" name="adapter_nm" id="adapter_nm">
+                <input class="form-control" type="hidden" name="adapter_id" id="adapter_id">                        
+                <input class="form-control" type="hidden" name="save_type" id="save_type">                        
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group row col-12 col-md-12">
+              <label class="control-label">Adapter 유형</label>
+              <div class="form-control_box">
+                <select class="form-control" name="adapter_type_id" id="adapter_type_id">
+                </select>              
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group row col-12 col-md-12">
+              <label class="control-label">사용 여부</label>
+              <div class="form-control_box">
+                <input class="flat" type="radio" name="use_yn" id="use_yn_Y" value="Y">사용
+                <input class="flat" type="radio" name="use_yn" id="use_yn_N" value="N">사용안함
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="button" onclick="addSave();"><span id="modalBtnLabel">저장</span></button>
+        <button class="btn btn-danger" id="btnDel" type="button" onclick="btnDel();">삭제</button>
+        <button class="btn btn-dark" type="button" onclick="closeModal();">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 {{>layout/footer}}
@@ -95,7 +134,7 @@
 <script>
 document.title = 'LX DMS | Adaptor 설정';
 const commonUrl = '/common';
-const url = '/adaptor/dataset/imageDataset';
+const url = '/adaptor';
 
 let init_page = 1;				//초기 페이지
 let page = 1;					//페이지
@@ -118,9 +157,12 @@ const dpIngestAdapter = function (page, size_per_page) {
 	let query = $("#query").val() != null ? $("#query").val() : '';
 	
 	const data = {
-   		url: '/dp/ingest/adapter?search='+search_type+':'+query+'&page_current='+page+'&size_per_page='+size_per_page+'&sort=adapter_id:desc',
+   		url: '/dp/ingest/adapter',
    		user_id: 'user00',	
    		menu_id: 'menu_id',
+   		search: query,
+   		search_type: search_type,
+   		page_current: page,
     };		
     $.ajax({
         type: 'POST',
@@ -137,21 +179,22 @@ const dpIngestAdapter = function (page, size_per_page) {
   	    	if(data.contents != ""){
   	    		
 	     	    let insertTr = '';
+	     	    let i = 0;	
 		  	    $.each(data.contents, function (idx, el) {
 
 	     	          insertTr += '<tr>';
-	     		      insertTr += '	<td><input class="flat" type="radio" name="image_dataset_id" value="'+el.image_dataset_id+'"></td>';
-	     		      insertTr += ' <td>'+isEmpty(el.image_dataset_nm)+'</td>';
-	     		      insertTr += ' <td>'+isEmpty(el.image_dataset_desc)+'</td>';
-	                  insertTr += ' <td>'+isEmpty(el.train_cnt)+'</td>';
-	                  insertTr += ' <td>'+isEmpty(el.valid_cnt)+'</td>';
-	                  insertTr += ' <td>'+isEmpty(el.test_cnt)+'</td>';
-	                  insertTr += ' <td>'+isEmpty(el.creator_id)+'</td>';
-	                  insertTr += ' <td>'+isEmpty(el.creat_datetime)+'</td>';
-	                  insertTr += ' <td>'+isEmpty(el.modify_datetime)+'</td>';
+	     		      insertTr += '	<td>'+(++i)+'</td>';
+	     		      insertTr += ' <td><span class="blue bold" style="cursor:pointer" onclick=modModal("'+el.adapter_id+'");>'+isEmpty(el.adapter_nm)+'</span></td>';
+	     		      insertTr += ' <td>'+isEmpty(el.adapter_type_nm)+'</td>';
+	     		      insertTr += ' <td>';
+	     		      insertTr += '	<button class="btn btn-sm btn-primary" onclick=operationView("'+ el.adapter_id +'")>운영</button>';
+	     		      insertTr += '	<button class="btn btn-sm btn-primary" onclick=detailView("'+ el.adapter_id +'")>상세</button>';
+	     		      insertTr += ' </td>';	     		      
+	                  insertTr += ' <td>'+isEmpty(el.use_yn)+'</td>';
+	                  insertTr += ' <td>'+isEmpty(el.instance_count)+'</td>';
 	                  insertTr += '</tr>';
 		  	    });
-          	    $("#imagesDatasetsGet").append(insertTr);
+          	    $("#dpIngestAdapter").append(insertTr);
   	    	}
   	    	
   	    	//페이징 보여줌
@@ -164,28 +207,100 @@ const dpIngestAdapter = function (page, size_per_page) {
     });	
 }
 
-//이미지 데이터셋 등록
-const imagesDatasetsEnroll = function () {
+//Adapter 유형 조회
+const dpIngestAdapterType = function () {
+	
+	$("#adapter_type_id").empty();
+	
+    const data = {
+   		url: '/dp/ingest/adapter/type',
+    };		
+    
+    $.ajax({
+        type: 'POST',
+        url: commonUrl+'/dpIngestAdapterType',
+        dataType: 'json',
+        contentType: 'application/json; charset-utf-8',
+        data: JSON.stringify(data)
+    }).done(function (data) {
+    	
+	  	  if (data != null) {
+		  	   	if(data.contents != ""){    	    	
+   					 let selOp = '<option value="">선택</option>';  
+	    	   		 $.each(data.contents, function (idx, el) {
+ 	    					selOp += '<option value='+el.adapter_type_id+'>' + el.adapter_type_nm + '</option>';
+	 	     	     });
+		 	     	 $("#adapter_type_id").append(selOp);        	
+		  	   	}
+	  	  }
+    	  
+    }).fail(function (error) {
+        alert(JSON.stringify(error));
+    });
+}
+
+//Adapter ID 자동증가
+const dpIngestAdapterIdChk = function(){
+	
+	$("#adapter_id").val("");
+	
+    const data = {
+	   		url: '/dp/ingest/adapter/id/check',
+	    };		
+	    
+	    $.ajax({
+	        type: 'POST',
+	        url: commonUrl+'/dpIngestAdapterIdChk',
+	        dataType: 'json',
+	        contentType: 'application/json; charset-utf-8',
+	        data: JSON.stringify(data)
+	    }).done(function (data) {
+		  	  if (data != null) {
+			  	   	if(data.contents != ""){    	
+		    	   		 $.each(data.contents, function (idx, el) {
+			    	   		$("#adapter_id").val(el.adapter_id);
+		 	     	     });
+			  	   	}
+		  	  }
+	    	  
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });
+	    
+	    
+}
+
+//Adapter 저장
+const dpIngestAdapterSave = function(){
 	
 	if(!confirm('등록 하시겠습니까?')) {
 	}else{
-	    if($("#image_dataset_nm").val() == '') {
-	        alert('이미지 데이터셋 이름을 입력하세요!');
-	        $("#image_dataset_nm").focus();
-	        return;
-	    }
-	    if($("#image_dataset_desc").val() == '') {
-	        alert('설명을 입력하세요!');
-	        $("#image_dataset_desc").focus();
+	    if($("#adapter_nm").val() == '') {
+	        alert('Adapter명을 입력하세요!');
+	        $("#adapter_nm").focus();
 	        return;
 	    }
 	    
+	    if($("#adapter_type_id").val() == '') {
+	        alert('Adapter유형을 선택하세요!');
+	        $("#adapter_type_id").focus();
+	        return;
+	    }
+	    
+		let use_yn = $("input[name='use_yn']:checked").val();
+	    if($("input[name='use_yn']:checked").length < 1) {
+	    	alert('사용 여부를 선택하세요!');
+	        return;
+	    }	 
+	    
+	    let adapter_id = $("#adapter_id").val();
+	    
 	    const data = {
-	   		url: '/services/sandbox/datasets/images/enroll',
-	   		image_dataset_nm: $("#image_dataset_nm").val(),	
-	   		image_dataset_desc: $("#image_dataset_desc").val(),	
-	   		creator_id: 'user00',	
-	   		modifier_id: 'user00',	
+	   		url: '/dp/ingest/adapter/save',
+	   		adapter_id: adapter_id,	
+	   		adapter_nm: $("#adapter_nm").val(),	
+	   		adapter_type_id: $("#adapter_type_id").val(),	
+	   		use_yn: use_yn,	
 	   		user_id: 'user00',	
 	   		menu_id: 'menu_id',
 	    };		
@@ -203,7 +318,7 @@ const imagesDatasetsEnroll = function () {
 		  		let message = JSON.stringify(data.return_msg);
 		  		alert(message.replace(/\"/gi, ''));
 		  		closeModal();
-		  		imagesDatasetsGet(page, size_per_page);
+		  		dpIngestAdapter(page, size_per_page);
 		  		
 		  	  }
 	    	  
@@ -213,43 +328,41 @@ const imagesDatasetsEnroll = function () {
 	}
 }
 
-//이미지 데이터셋 상세 조회
-const imageDatasetDetail = function () {
+//Adapter 상세 조회
+const dpIngestAdapterDt = function(adapter_id){
 	
-	let image_dataset_id = $("input[name='image_dataset_id']:checked").val();
-	
-    if($("input[name='image_dataset_id']:checked").length < 1) {
-        alert('선택 항목이 없습니다.');
-        return;
-    }
-	const data = {
-   		url: '/services/sandbox/datasets/images/'+image_dataset_id+'/detail',
-   		user_id: 'user00',	
-   		menu_id: 'menu_id',
-    };		
-    $.ajax({
-        type: 'POST',
-        url: url+'/imageDatasetDetail',
-        dataType: 'json',
-        contentType: 'application/json; charset-utf-8',
-        data: JSON.stringify(data)
-    }).done(function (data) {
-    	
-	  	  if (data != null) {
-	  	    	if(data.contents != ""){
-	  	    		
-		  	   		$("#hidden_image_dataset_id").val(JSON.stringify(data.contents.image_dataset_id).replace(/\"/gi, ''));	
-		  	   		$("#image_dataset_nm").val(JSON.stringify(data.contents.image_dataset_nm).replace(/\"/gi, ''));	
-		  	   		$("#image_dataset_desc").val(JSON.stringify(data.contents.image_dataset_desc).replace(/\"/gi, ''));	
-			  	   		
-	  	    	}  		
-	  	  }
-    	  
-	  	modModal();
-	  	
-    }).fail(function (error) {
-        alert(JSON.stringify(error));
-    });	
+    const data = {
+	   		url: '/dp/ingest/adapter/detail',
+	   		adapter_id: adapter_id,	
+	   		user_id: 'user00',	
+	   		menu_id: 'menu_id',
+	    };		
+	    
+	    $.ajax({
+	        type: 'POST',
+	        url: url+'/dpIngestAdapterDt',
+	        dataType: 'json',
+	        contentType: 'application/json; charset-utf-8',
+	        data: JSON.stringify(data)
+	    }).done(function (data) {
+		  	  if (data != null) {
+			  	   	if(data.contents != ""){    	
+		    	   		 $.each(data.contents, function (idx, el) {
+			    	   		$("#adapter_id").val(el.adapter_id);
+			    	   		$("#adapter_nm").val(el.adapter_nm);
+			    	   		$("#adapter_type_id").val(el.adapter_type_id);
+			    //	   		$("#use_yn_"+el.use_yn).val(el.use_yn);
+			    			alert(el.use_yn);
+			    	   		$("input:radio[name='use_yn']:radio[value='"+el.use_yn+"']").prop('checked', true);
+		 	     	     });
+			  	   	}
+		  	  }
+	    	  
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });
+	    
+	    
 }
 
 //이미지 데이터셋 수정
@@ -288,7 +401,7 @@ const imagesDatasetsUpdate = function () {
 			  		let message = JSON.stringify(data.return_msg);
 			  		alert(message.replace(/\"/gi, ''));
 			  		closeModal();
-			  		imagesDatasetsGet(page, size_per_page);
+			  		dpIngestAdapter(page, size_per_page);
 		  	  }
 	    	  
 	    }).fail(function (error) {
@@ -325,14 +438,7 @@ const btnDel = function(){
 	
     if(!confirm('삭제 하시겠습니까?')) {
     } else {
-        if($("input[name='image_dataset_id']:checked").length < 1) {
-            alert('선택 항목이 없습니다.');
-            return;
-        }
-
-        $("input[name='image_dataset_id']:checked").each(function (i) {
-        	imagesDatasetsDelete($(this).val());
-        });
+       	imagesDatasetsDelete($(this).val());
     }
 }
 
@@ -341,7 +447,7 @@ const addSave = function(){
 	
 	if($('#save_type').val() == 'C'){
 		//등록
-		imagesDatasetsEnroll();
+		dpIngestAdapterSave();
 	}else{
 		//수정
 		imagesDatasetsUpdate();
@@ -352,17 +458,24 @@ const addSave = function(){
 const addModal = function(){
 	
 	initModal();
-	$('#modelLabel').text('분석모델 등록 팝업');
-	$('#modalBtnLabel').text('등록');	
+	dpIngestAdapterIdChk();
+	dpIngestAdapterType();
+	$('#modelLabel').text('Adapter 등록');
+	$('#modalBtnLabel').text('저장');	
 	$('#save_type').val('C');
+	$('#btnDel').hide();
 	$('#add_modal').modal('show');
 }
 
 //모달 수정창
-const modModal = function(){
-	$('#modelLabel').text('분석모델 수정 팝업');
+const modModal = function(adapter_id){
+	
+	dpIngestAdapterDt(adapter_id);
+	dpIngestAdapterType();
+	$('#modelLabel').text('Adapter 수정');
 	$('#modalBtnLabel').text('수정');	
 	$('#save_type').val('U');
+	$('#btnDel').show();
 	$('#add_modal').modal('show');
 }
 
@@ -373,8 +486,7 @@ const closeModal = function(){
 
 //모달 초기화
 const initModal = function(){
-	$("#image_dataset_nm").val('');	
-	$("#image_dataset_desc").val('');	
+	$("#adapter_nm").val('');	
 }
 
 //이미지 관리 페이지 이동
