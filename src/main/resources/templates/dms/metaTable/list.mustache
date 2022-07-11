@@ -1,6 +1,321 @@
 {{>layout/header}}
 
-
+	<div class="right_col" role="main">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="x_panel">
+	                <div class="x_title"> 
+	                  <h2>HOME > 메타테이블 관리</h2>
+	                  <div class="clearfix"> </div>
+	                </div>
+	                <div class="x_content">
+	                	<form class="form-horizontal form-label-left d-flex align-items-center mb-4 row">
+		                    <div class="col-12 col-md-10">
+		                      <div class="form-group row">
+		                        <label class="control-label">검색</label>
+		                        <div class="form-control_box">
+		                          <div class="col-md-2 pl-0">
+		                            <select class="form-control">
+		                                <option>대분류</option>
+		                            </select>
+		                          </div>
+		                          <div class="col-md-2 pl-0">
+		                            <select class="form-control">
+		                                <option>중분류</option>
+		                            </select>
+		                          </div>
+		                          <div class="col-md-2 pl-0">
+		                            <select class="form-control">
+		                                <option>소분류</option>
+		                            </select>
+		                          </div>
+		                          <div class="col-md-2 pl-0">
+		                            <select class="form-control">
+		                                <option>선택</option>
+		                            </select>
+		                          </div>
+		                          <div class="col-md-4 pr-0">
+		                            <input class="form-control" type="text" placeholder="">
+		                          </div>
+		                        </div>
+		                      </div>
+		                    </div>
+		                    <div class="col-12 col-md-2 btn_search_box">
+		                      <button class="btn btn-primary"> <i class="glyphicon glyphicon-search"></i></button>
+		                    </div>
+		                  </form>
+	            	</div>
+	        	</div>
+	    	</div>
+		</div>
+		<div class="row">
+		    <div class="col-md-12">
+		        <div class="x_panel">
+		            <div class="x_title">
+		                <h3>테이블 정보</h3>
+		            </div>
+		            <div class="x_content">
+	                    <div class="table_btns mt-4">
+	                    	<button class="btn btn btn-success" type="button" onclick="addModal();">테이블 생성</button>
+	                    	<button class="btn btn-primary" type="button" onclick="addModal();">추가</button>
+	                    	<button class="btn btn-danger" type="button" onclick="addModal();">삭제</button>
+                    	</div>
+		                <div class="table_responsive">
+		                	<div class="talbel_total">총 건</div>
+		                    <table class="table table-striped" style="text-align: center;">
+		                        <colgroup>
+		                            <col width="55px">
+		                        </colgroup>
+		                        <thead>
+		                            <tr>
+		                                <th rowspan="2">선택</th>
+		                                <th rowspan="2">대분류</th>
+		                                <th rowspan="2">중분류</th>
+		                                <th rowspan="2">소분류</th>
+		                                <th rowspan="2">수집방식</th>
+		                                <th rowspan="2">수집유형</th>
+		                                <th rowspan="2">데이터셋 한글명</th>
+		                                <th colspan="2">테이블</th>
+		                                <th rowspan="2">수집테이블생성여부</th>
+		                                <th rowspan="2">컬럼정보</th>
+		                            </tr>
+		                            <tr>
+		                                <th>한글명</th>
+		                                <th>영문명</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+									<tr>
+										<td><input type="checkbox"></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>데이터셋1</td>
+										<td>문화재</td>
+										<td>tb_mun</td>
+										<td></td>
+										<td><button class="btn btn-success btn-sm mx-0" type="button" onclick="location.href='/metaTable/columnInfo'">바로가기</button></td>
+									</tr>
+		                        </tbody>
+		                    </table>
+		                    <div class="nav justify-content-center">
+		                        <ul class="pagination"></ul>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<div class="row">
+		    <div class="col-md-12">
+		        <div class="x_panel">
+		            <div class="x_title">
+		                <h3>데이터셋 항목</h3>
+		                <div class="clearfix"> </div>
+		            </div>
+		            <div class="x_content">
+		            	<div class="table_btns mt-4">
+	                    	<button class="btn btn-primary" type="button">저장</button>
+                    	</div>
+                    	<div class="table_responsive">
+		                    <table class="table table-bordered bulk_action table_center">
+		                        <colgroup>
+		                        </colgroup>
+		                        <thead>
+		                        <tr>
+		                            <th>데이터셋 한글명</th>
+		                            <th>
+		                                <input class="form-control" type="text">
+		                            </th>
+		                            <th>수집 방식</th>
+		                            <th>
+		                            	<select class="form-control clct_mthd1" disabled>
+		                                	<option val="">선 택</option>
+		                            	</select>
+		                            </th>
+		                            <th rowspan="3" style="vertical-align: middle;">데이터셋 설명</th>
+		                            <th rowspan="3" style="vertical-align: middle;">
+		                                <textarea rows="6" style="width: 100%;"></textarea>
+		                            </th>
+		                        </tr>
+		                        <tr>
+		                            <th>데이터셋 대분류</th>
+		                            <th>
+		                                <select class="form-control">
+		                                    <option>A1</option>
+		                                    <option>A2</option>
+		                                    <option>A3</option>
+		                                    <option value="AABBCC">AABBCC</option>
+		                                    <option value="D">D</option>
+		                                </select>
+		                            </th>
+		                            <th>수집 유형</th>
+		                            <th>
+		                                <select class="form-control clct_ty1" disabled>
+		                                    <option val="">선 택</option>
+		
+		                                    <option value="FILE UPLOAD">FILE UPLOAD</option>
+		                                </select>
+		                            </th>
+		                        </tr>
+		                        <tr>
+		                            <th>데이터셋 중분류</th>
+		                            <th>
+		                                <select class="form-control">
+		                                    <option val="">선 택</option>
+		                                    <option>B1</option>
+		                                    <option>B2</option>
+		                                    <option>B3</option>
+		                                </select>
+		                            </th>
+		                            <th>데이터셋 소유자</th>
+		                            <th>
+		                                <select class="form-control">
+		                                    <option value="S">시스템</option>
+		                                    <option value="U">사용자</option>
+		                                </select>
+		                            </th>
+		                        </tr>
+		                        <tr>
+		                            <th>데이터셋 소분류</th>
+		                            <th>
+		                                <select class="form-control">
+		                                    <option val="">선 택</option>
+		                                    <option>C1</option>
+		                                    <option>C2</option>
+		                                    <option>C3</option>
+		                                </select>
+		                            </th>
+		                            <th>CUD 구분(한자리)</th>
+		                            <th>
+		                                <select class="form-control">
+		                                    <option value="C">C</option>
+		                                    <option value="U">U</option>
+		                                    <option value="D">D</option>
+		                                </select>
+		                            </th>
+		                            <th rowspan="2" style="vertical-align: middle">CUD 설명</th>
+		                            <th rowspan="2" style="vertical-align: middle">
+		                                <textarea rows="4" style="width: 100%;"></textarea>
+		                            </th>
+		                        </tr>
+		                        <tr>
+		                            <th>사용 여부</th>
+		                            <th>
+		                                <select class="form-control">
+		                                    <option value="Y">사용</option>
+		                                    <option value="N">미사용</option>
+		                                </select>
+		                            </th>
+		                            <th>수집 테이블 생성 여부</th>
+		                            <th>
+		                                <input class="form-control" type="text" placeholder="" readonly>
+		                            </th>
+		                        </tr>
+		                        </thead>
+		                        <tbody>
+		                        </tbody>
+		                    </table>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<div class="row">
+		    <div class="col-md-12">
+		        <div class="x_panel">
+		            <div class="x_title">
+		                <h3>테이블 항목</h3>
+		                <div class="clearfix"></div>
+		            </div>
+		            <div class="x_content">
+		            	<div class="table_btns mt-4">
+	                    	<button class="btn btn-primary" type="button">저장</button>
+                    	</div>
+		                <div class="table_responsive">
+		                    <table class="table table-bordered bulk_action table_center">
+		                        <colgroup>
+		                        </colgroup>
+		                        <thead>
+		                        <tr>
+		                            <th>테이블 한글명</th>
+		                            <th colspan="3">
+		                                <input class="form-control" type="text">
+		                            </th>
+		                            <th rowspan="3" style="vertical-align: middle;">테이블 설명</th>
+		                            <th rowspan="3" style="vertical-align: middle;">
+		                                <textarea rows="6" style="width: 100%;"></textarea>
+		                            </th>
+		                        </tr>
+		                        <tr>
+		                            <th>테이블 영문명</th>
+		                            <th colspan="3">
+		                            	<div class="form-control_box duplicate_box">
+		                                <input class="form-control" type="text">
+		                                <button class="btn btn-danger btn-sm">중복조회</button>
+		                                </div>
+		                            </th>
+		                        </tr>
+		                        <tr>
+		                            <th>데이터셋 셋종류</th>
+		                            <th>
+		                                <select class="form-control">
+		                                    <option value="D">데이터</option>
+		                                    <option value="M">메타정보</option>
+		                                </select>
+		                            </th>
+		                            <th>소유자 ID</th>
+		                            <th>
+		                                <input class="form-control" type="text">
+		                            </th>
+		                        </tr>
+		                        <tr>
+		                            <th>테이블 유형</th>
+		                            <th>
+		                                <select class="form-control">
+		                                    <option value="masterTbl">마스터 테이블</option>
+		                                    <option value="nomalTbl">일반 테이블</option>
+		                                    <option value="metaTbl">메타 테이블</option>
+		                                </select>
+		                            </th>
+		                            <th>CUD 구분(한자리)</th>
+		                            <th>
+		                                <select class="form-control">
+		                                    <option value="C">C</option>
+		                                    <option value="U">U</option>
+		                                    <option value="D">D</option>
+		                                </select>
+		                            </th>
+		                            <th rowspan="2" style="vertical-align: middle">CUD 설명</th>
+		                            <th rowspan="2" style="vertical-align: middle">
+		                                <textarea rows="4" style="width: 100%;"></textarea>
+		                            </th>
+		                        </tr>
+		                        <tr>
+		                            <th>사용 여부</th>
+		                            <th>
+		                                <select class="form-control">
+		                                    <option value="Y">사용</option>
+		                                    <option value="N">미사용</option>
+		                                </select>
+		                            </th>
+		                            <th>수집 테이블 생성 여부</th>
+		                            <th>
+		                                <input class="form-control" type="text" placeholder="" readonly>
+		                            </th>
+		                        </tr>
+		                        </thead>
+		                        <tbody>
+		                        </tbody>
+		                    </table>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
         
 {{>layout/footer}}        
 
