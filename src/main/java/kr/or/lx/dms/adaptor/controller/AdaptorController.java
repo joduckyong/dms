@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,10 +35,10 @@ public class AdaptorController {
 		return "dms/adaptor/config";
 	}	
 	
-	@GetMapping("/detail")
-	public String detail(ModelMap model) throws Exception{
+	@GetMapping("/detail/{adapter_id}")
+	public String detail(@PathVariable String adapter_id, ModelMap model) throws Exception{
 		
-		
+		model.put("adapter_id", adapter_id);		
 		return "dms/adaptor/detail";
 	}	
 	
@@ -93,7 +94,6 @@ public class AdaptorController {
 	@ResponseBody
 	@PostMapping("{apiId}")
 	public Object adaptorApi(@RequestBody Map<String, Object> param, ModelMap model) throws Exception{
-		log.info("adaptorApi");
 		
 		String url = dmsApiUrl+param.get("url");
 		

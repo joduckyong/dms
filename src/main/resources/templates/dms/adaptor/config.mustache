@@ -52,12 +52,12 @@
 											</colgroup>
 											<thead>
 												<tr>
-													<th>순번</th>
-													<th>Adaptor 명</th>
-													<th>Adaptor 유형</th>
-													<th>운영 및 상세</th>
-													<th>사용여부</th>
-													<th>인스턴스 수</th>
+													<th style="text-align: center;">순번</th>
+													<th style="text-align: center;">Adaptor 명</th>
+													<th style="text-align: center;">Adaptor 유형</th>
+													<th style="text-align: center;">운영 및 상세</th>
+													<th style="text-align: center;">사용여부</th>
+													<th style="text-align: center;">인스턴스 수</th>
 												</tr>
 											</thead>
 											<tbody id="dpIngestAdapter">
@@ -112,7 +112,7 @@
             <div class="form-group row col-12 col-md-12">
               <label class="control-label">사용 여부</label>
               <div class="form-control_box">
-                <input class="flat" type="radio" name="use_yn" id="use_yn_Y" value="Y">사용
+                <input class="flat" type="radio" name="use_yn" id="use_yn_Y" value="Y" checked>사용
                 <input class="flat" type="radio" name="use_yn" id="use_yn_N" value="N">사용안함
               </div>
             </div>
@@ -183,15 +183,15 @@ const dpIngestAdapter = function (page, size_per_page) {
 		  	    $.each(data.contents, function (idx, el) {
 
 	     	          insertTr += '<tr>';
-	     		      insertTr += '	<td>'+(++i)+'</td>';
-	     		      insertTr += ' <td><span class="blue bold" style="cursor:pointer" onclick=modModal("'+el.adapter_id+'");>'+isEmpty(el.adapter_nm)+'</span></td>';
-	     		      insertTr += ' <td>'+isEmpty(el.adapter_type_nm)+'</td>';
-	     		      insertTr += ' <td>';
-	     		      insertTr += '	<button class="btn btn-sm btn-primary" onclick=operationView("'+ el.adapter_id +'")>운영</button>';
-	     		      insertTr += '	<button class="btn btn-sm btn-primary" onclick=detailView("'+ el.adapter_id +'")>상세</button>';
+	     		      insertTr += '	<td style="text-align: center;">'+(++i)+'</td>';
+	     		      insertTr += ' <td style="text-align: center;"><span class="blue bold" style="cursor:pointer" onclick=modModal("'+el.adapter_id+'");>'+isEmpty(el.adapter_nm)+'</span></td>';
+	     		      insertTr += ' <td style="text-align: center;">'+isEmpty(el.adapter_type_nm)+'</td>';
+	     		      insertTr += ' <td style="text-align: center;">';
+	     		      insertTr += '	<button class="btn btn-sm btn-primary" onclick=operationPage("'+ el.adapter_id +'")>운영</button>';
+	     		      insertTr += '	<button class="btn btn-sm btn-primary" onclick=adapterDPage("'+ el.adapter_id +'")>상세</button>';
 	     		      insertTr += ' </td>';	     		      
-	                  insertTr += ' <td>'+isEmpty(el.use_yn)+'</td>';
-	                  insertTr += ' <td>'+isEmpty(el.instance_count)+'</td>';
+	                  insertTr += ' <td style="text-align: center;">'+isEmpty(el.use_yn)+'</td>';
+	                  insertTr += ' <td style="text-align: center;">'+isEmpty(el.instance_count)+'</td>';
 	                  insertTr += '</tr>';
 		  	    });
           	    $("#dpIngestAdapter").append(insertTr);
@@ -208,7 +208,7 @@ const dpIngestAdapter = function (page, size_per_page) {
 }
 
 //Adapter 유형 조회
-const dpIngestAdapterType = function () {
+const dpIngestAdapterType = function (adapter_type_id) {
 	
 	$("#adapter_type_id").empty();
 	
@@ -228,7 +228,8 @@ const dpIngestAdapterType = function () {
 		  	   	if(data.contents != ""){    	    	
    					 let selOp = '<option value="">선택</option>';  
 	    	   		 $.each(data.contents, function (idx, el) {
- 	    					selOp += '<option value='+el.adapter_type_id+'>' + el.adapter_type_nm + '</option>';
+	    	   			console.log('el.adapter_type_id='+el.adapter_type_id+', adapter_type_id='+adapter_type_id); 
+ 	    				selOp += '<option value="'+el.adapter_type_id+'">' + el.adapter_type_nm + '</option>';
 	 	     	     });
 		 	     	 $("#adapter_type_id").append(selOp);        	
 		  	   	}
@@ -237,6 +238,7 @@ const dpIngestAdapterType = function () {
     }).fail(function (error) {
         alert(JSON.stringify(error));
     });
+    
 }
 
 //Adapter ID 자동증가
@@ -345,18 +347,25 @@ const dpIngestAdapterDt = function(adapter_id){
 	        contentType: 'application/json; charset-utf-8',
 	        data: JSON.stringify(data)
 	    }).done(function (data) {
+	    	
+	    	  let adapter_id;
+	    	  let adapter_nm;
+	    	  let adapter_type_id;
+	    	  let use_yn;
 		  	  if (data != null) {
 			  	   	if(data.contents != ""){    	
 		    	   		 $.each(data.contents, function (idx, el) {
-			    	   		$("#adapter_id").val(el.adapter_id);
-			    	   		$("#adapter_nm").val(el.adapter_nm);
-			    	   		$("#adapter_type_id").val(el.adapter_type_id);
-			    //	   		$("#use_yn_"+el.use_yn).val(el.use_yn);
-			    			alert(el.use_yn);
-			    	   		$("input:radio[name='use_yn']:radio[value='"+el.use_yn+"']").prop('checked', true);
+		    	   			adapter_id = el.adapter_id;
+		    	   			adapter_nm = el.adapter_nm;
+		    	   			adapter_type_id = el.adapter_type_id;
+		    	   			use_yn = el.use_yn;
 		 	     	     });
 			  	   	}
 		  	  }
+   	   		  $("#adapter_id").val(adapter_id);
+   	   		  $("#adapter_nm").val(adapter_nm);
+   	   		  $("#adapter_type_id").val(adapter_type_id);
+   	   		  $("input:radio[id='use_yn_"+use_yn+"']").prop("checked", true); 
 	    	  
 	    }).fail(function (error) {
 	        alert(JSON.stringify(error));
@@ -366,32 +375,40 @@ const dpIngestAdapterDt = function(adapter_id){
 }
 
 //이미지 데이터셋 수정
-const imagesDatasetsUpdate = function () {
+const dpIngestAdapterUpdate = function () {
 
 	if(!confirm('수정 하시겠습니까?')) {
 	}else{
-	    if($("#image_dataset_nm").val() == '') {
-	        alert('이미지 데이터셋 이름을 입력하세요!');
-	        $("#image_dataset_nm").focus();
-	        return;
-	    }
-	    if($("#image_dataset_desc").val() == '') {
-	        alert('설명을 입력하세요!');
-	        $("#image_dataset_desc").focus();
+	    if($("#adapter_nm").val() == '') {
+	        alert('Adapter명을 입력하세요!');
+	        $("#adapter_nm").focus();
 	        return;
 	    }
 	    
+	    if($("#adapter_type_id").val() == '') {
+	        alert('Adapter유형을 선택하세요!');
+	        $("#adapter_type_id").focus();
+	        return;
+	    }
+	    
+		let use_yn = $("input[name='use_yn']:checked").val();
+	    if($("input[name='use_yn']:checked").length < 1) {
+	    	alert('사용 여부를 선택하세요!');
+	        return;
+	    }	
+	    
 	    const data = {
-	   		url: '/services/sandbox/datasets/images/'+$("#hidden_image_dataset_id").val()+'/update',
-	   		image_dataset_nm: $("#image_dataset_nm").val(),	
-	   		image_dataset_desc: $("#image_dataset_desc").val(),	
-	   		modifier_id: 'user00',
+	   		url: '/dp/ingest/adapter/update',
+	   		adapter_id: $("#adapter_id").val(),	
+	   		adapter_nm: $("#adapter_nm").val(),	
+	   		adapter_type_id: $("#adapter_type_id").val(),	
+	   		use_yn: use_yn,	
 	   		user_id: 'user00',
 	   		menu_id: 'menu_id',
 	    };		
 	    $.ajax({
 	        type: 'POST',
-	        url: url+'/imagesDatasetsUpdate',
+	        url: url+'/dpIngestAdapterUpdate',
 	        dataType: 'json',
 	        contentType: 'application/json; charset-utf-8',
 	        data: JSON.stringify(data)
@@ -410,24 +427,60 @@ const imagesDatasetsUpdate = function () {
 	}
 }
 
-//분석 모델 기본정보 삭제
-const imagesDatasetsDelete = function (image_dataset_id) {
+//Adapter 삭제
+const dpIngestAdapterDel = function () {
+	const data = {
+	   		url: '/dp/ingest/adapter/delete',
+	   		adapter_id: $("#adapter_id").val(),	
+	   		user_id: 'user00',	
+	   		menu_id: 'menu_id',
+	    };		
+	    $.ajax({
+	        type: 'POST',
+	        url: url+'/dpIngestAdapterDel',
+	        dataType: 'json',
+	        contentType: 'application/json; charset-utf-8',
+	        data: JSON.stringify(data)
+	    }).done(function (data) {
+	  		
+	  		let message = JSON.stringify(data.return_msg);
+	  		alert(message.replace(/\"/gi, ''));
+	  		closeModal();
+	  		dpIngestAdapter(page, size_per_page);
+	  		
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });	
+}
+
+//Adapter 삭제 체크
+const dpIngestAdapterDelChk = function () {
 		
 	const data = {
-   		url: '/services/sandbox/datasets/images/'+image_dataset_id+'/delete',
+   		url: '/dp/ingest/adapter/delete/check',
+   		adapter_id: $("#adapter_id").val(),	
    		user_id: 'user00',	
    		menu_id: 'menu_id',
     };		
     $.ajax({
         type: 'POST',
-        url: url+'/imagesDatasetsDelete',
+        url: url+'/dpIngestAdapterDelChk',
         dataType: 'json',
         contentType: 'application/json; charset-utf-8',
         data: JSON.stringify(data)
     }).done(function (data) {
-  		let message = JSON.stringify(data.return_msg);
-  		alert(message.replace(/\"/gi, ''));
-  		imagesDatasetsGet(page, size_per_page);
+  		
+    	if (data != null) {
+	  	   	if(data.contents != ""){    	
+    	   		 $.each(data.contents, function (idx, el) {
+    	   			if(el.chk_yn == 'N'){
+    	   				dpIngestAdapterDel();
+    	   			}
+ 	     	     });
+	  	   	}
+  	  } 
+    	
+    	
     }).fail(function (error) {
         alert(JSON.stringify(error));
     });	
@@ -438,7 +491,7 @@ const btnDel = function(){
 	
     if(!confirm('삭제 하시겠습니까?')) {
     } else {
-       	imagesDatasetsDelete($(this).val());
+    	dpIngestAdapterDelChk();
     }
 }
 
@@ -450,7 +503,7 @@ const addSave = function(){
 		dpIngestAdapterSave();
 	}else{
 		//수정
-		imagesDatasetsUpdate();
+		dpIngestAdapterUpdate();
 	}
 }
 
@@ -459,7 +512,6 @@ const addModal = function(){
 	
 	initModal();
 	dpIngestAdapterIdChk();
-	dpIngestAdapterType();
 	$('#modelLabel').text('Adapter 등록');
 	$('#modalBtnLabel').text('저장');	
 	$('#save_type').val('C');
@@ -471,7 +523,6 @@ const addModal = function(){
 const modModal = function(adapter_id){
 	
 	dpIngestAdapterDt(adapter_id);
-	dpIngestAdapterType();
 	$('#modelLabel').text('Adapter 수정');
 	$('#modalBtnLabel').text('수정');	
 	$('#save_type').val('U');
@@ -489,20 +540,6 @@ const initModal = function(){
 	$("#adapter_nm").val('');	
 }
 
-//이미지 관리 페이지 이동
-const jsAdd = function(){
-    let image_dataset_id;
-    if($("input[name='image_dataset_id']:checked").length < 1) {
-        alert('선택 항목이 없습니다.');
-        return;
-    }
-    $("input[name='image_dataset_id']:checked").each(function (i) {
-    	image_dataset_id = $(this).val();
-    });    
-    
-	location.href = '/sandbox/dataset/imageDataset/add/'+image_dataset_id;
-}
-
 //페이징 함수 호출
 const pagingFun = function(page, size_per_page){
 	dpIngestAdapter(page, size_per_page);
@@ -514,9 +551,16 @@ const enterkey = function(e) {
 		dpIngestAdapter();
     }
 }
+
+//상세 페이지
+const adapterDPage = function(adapter_id){
+	location.href = url+'/detail/'+adapter_id;
+}
+
 //조회
 dpIngestAdapter(page, size_per_page);
-	
+dpIngestAdapterType();
+
 </script>
 
 
