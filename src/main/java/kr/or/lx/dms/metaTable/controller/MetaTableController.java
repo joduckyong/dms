@@ -39,7 +39,14 @@ public class MetaTableController {
 		
 		
 		return "dms/metaTable/metaInfo";
-	}	
+	}
+	
+	@GetMapping("/columnInfo")
+	public String columnInfo(ModelMap model) throws Exception{
+		
+		
+		return "dms/metaTable/columnInfo";
+	}
 	
 	@ResponseBody
 	@PostMapping("{apiId}")
