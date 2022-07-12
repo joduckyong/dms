@@ -1,10 +1,137 @@
 {{>layout/header}}
-
-
+<link rel="stylesheet" href="/vendors/tree/css/tree.css">
+	<div class="right_col" role="main">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="x_panel">
+	                <div class="x_title"> 
+	                  <h2>HOME > 시스템 관리 > 분류 관리</h2>
+	                  <div class="clearfix"> </div>
+	                </div>
+	                <div class="row">
+		                <div class="x_content">
+		            	</div>
+		            	<div class="metatable_box col-6">
+		            		<h3 class="center_title">분류 관리</h3>
+							<div class="form-group row">
+								<div class="table_responsive" style="width: 100%; height: 500px; overflow: auto">
+									<ul id="tree-checkmenu" class="checktree">
+										<li id="show-explorer">
+											<input id="check-explorer" type="checkbox" /> Internet Explorer
+											<span id="count-explorer" class="count"></span>
+												<ul id="tree-explorer">
+													<li id="show-iemac">
+														<input id="check-iemac" type="checkbox" /> Macintosh
+   														<span id="count-iemac" class="count"></span>
+   														<ul id="tree-iemac">
+    														<li><input type="checkbox" /> v4.0</li>
+    														<li class="last"><input type="checkbox" /> v5.0</li>
+														</ul>
+													</li>
+													<li id="show-iewin" class="last">
+   														<input id="check-iewin" type="checkbox" /> Windows
+														<span id="count-iewin" class="count"></span>
+														<ul id="tree-iewin">
+															<li><input type="checkbox" /> v4.0</li>
+															<li><input type="checkbox" /> v5.0</li>
+															<li><input type="checkbox" /> v5.5</li>
+															<li class="last"><input type="checkbox" /> v6.0</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+											<li id="show-netscape">
+												<input id="check-netscape" type="checkbox" /> Netscape
+												<span id="count-netscape" class="count"></span>
+												<ul id="tree-netscape">
+													<li><input type="checkbox" /> v4.0x</li>
+													<li><input type="checkbox" /> v4.5-v4.7</li>
+													<li><input type="checkbox" /> v6.x</li>
+													<li><input type="checkbox" /> v7.x</li>
+													<li id="show-mozilla" class="last">
+														<input id="check-mozilla" type="checkbox" /> Mozilla
+														<span id="count-mozilla" class="count"></span>
+														<ul id="tree-mozilla">
+															<li><input type="checkbox" /> pre-v1.0</li>
+															<li><input type="checkbox" /> v1.0</li>
+															<li><input type="checkbox" /> v1.1+</li>
+															<li class="last"><input type="checkbox" /> Firebird</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+											<li id="show-opera">
+												<input id="check-opera" type="checkbox" /> Opera
+												<span id="count-opera" class="count"></span>
+												<ul id="tree-opera">
+													<li><input type="checkbox" /> v5.x</li>
+													<li><input type="checkbox" /> v6.x</li>
+													<li class="last"><input type="checkbox" /> v7.x</li>
+												</ul>
+											</li>
+										<li id="show-khtml">
+											<input id="check-khtml" type="checkbox" /> KHTML
+											<span id="count-khtml" class="count"></span>
+											<ul id="tree-khtml">
+												<li><input type="checkbox" /> Safari</li>
+												<li class="last"><input type="checkbox" /> Konqueror</li>
+											</ul>
+										</li>
+										<li class="last"><input type="checkbox" /> Omniweb</li>
+									</ul>
+	     						</div>
+							</div>
+						</div>
+						<div class="metatable_box col-6 col-lg-6">
+							<h3 class="center_title">분류 항목</h3>
+							<div class="form-group row">
+								<div class="table_responsive" style="height: 300px; overflow: auto">
+									<div class="table_btns mt-1">
+				                      <button class="btn btn-primary" type="button">저장</button>
+				                    </div>
+									<table class="table table-bordered bulk_action table_center">
+										<colgroup>
+											<col width="30%;">
+										</colgroup>
+										<thead>
+		  									<tr>
+												<th>항목</th>
+												<th>값</th>
+		  									</tr>
+										</thead>
+	  									<tbody class="left_tbl">
+	  										<tr> 
+	  											<td>상위분류ID</td>
+	  											<td><input class="form-control" type="text"></td>
+	  										</tr>
+	  										<tr> 
+	  											<td>분류ID</td>
+	  											<td>
+	  												<div class="form-control_box duplicate_box">
+							                          <input class="form-control" type="text">
+							                          <button class="btn btn-danger btn-sm">중복조회</button>
+							                        </div>
+	  											</td>
+	  										</tr>
+	  										<tr> 
+	  											<td>분류명칭</td>
+	  											<td><input class="form-control" type="text"></td>
+	  										</tr>
+	  									</tbody>
+	       							</table>
+	     						</div>
+							</div>
+						</div>
+					</div>
+	        	</div>
+	    	</div>
+		</div>
+	</div>
         
 {{>layout/footer}}        
 
+<script src="/vendors/tree/js/tree.js"></script>
 <script>
-
+let checkmenu = new CheckTree('checkmenu');
 </script>
 

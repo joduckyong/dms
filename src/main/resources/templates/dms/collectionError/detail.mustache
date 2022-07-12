@@ -11,7 +11,8 @@
 	                <div class="x_content">
 	                	<div class="cont_title_box">
 		                    <h3>수집오류 상세 정보</h3>
-		                    <div class="right_btns"><a class="btn btn-primary" href="table.html">목록 </a>
+		                    <div class="right_btns">
+		                      <button class="btn btn-dark">목록</button>
 		                      <button class="btn btn-danger">즉시실행</button>
 		                    </div>
 		                  </div>
@@ -88,11 +89,11 @@
 		                        		</thead>
 		                        		<tbody>
 		                        			<tr>
-		                        				<td><ol><li><a class="btn btn-primary" href="#none;" onclick="addModal();">테이블 컬럼 변경</a></li></ol></td>
+		                        				<td><ol><li><a class="btn btn-primary" href="javascript:void(0);" onclick="table_addModal();">테이블 컬럼 변경</a></li></ol></td>
 		                        				<td>미처리</td>
 		                        			</tr>
 		                        			<tr>
-		                        				<td><ol><li><a class="btn btn-primary" href="">Instance 매칭정보</a></li></ol></td>
+		                        				<td><ol><li><a class="btn btn-primary" href="javascript:void(0);" onclick="instance_addModal();">Instance 매칭정보</a></li></ol></td>
 		                        				<td>미처리</td>
 		                        			</tr>
 		                        		</tbody>
@@ -106,223 +107,331 @@
 	    	</div>
 		</div>
 	</div>
-	<!-- modal -->
-        <div class="modal fade add_modal" id="add_modal" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">테이블 컬럼 변경</h4>
-                <button class="close" type="button" data-dismiss="modal"></button><span aria-hidden="true">&times;</span>
-              </div>
-              <div class="modal-body">
-              	<div class="x_content">
-              		<div class="border_rows">
-	                    <div class="row">
-	                      <div class="form-group row col-12 col-md-6">
-	                        <div class="control-label">테이블 한글명</div>
-	                        <div class="form-control_box" id="anals_model_nm">문화재</div>
-	                      </div>
-	                      <div class="form-group row col-12 col-md-6">
-	                        <div class="control-label">테이블 영문명</div>
-	                        <div class="form-control_box" id="anals_model_nm">tb_mun</div>
-	                      </div>
-	                    </div>
-	                  </div>
-	                <div class="row"> 
-		            	<div class="metatable_box col-6">
-		            		<div class="row"> 
-		                        <div class="table_responsive" style="height: 300px; overflow: auto">
-				                    <div class="table_btns mt-1">
-				                      <button class="btn btn-info" type="button">테이블 수정</button>
-				                      <button class="btn btn-primary" onclick="fileDelete();">추가</button>
-				                    </div>
-				                    <div class="talbel_total">총 건</div>
-				                    <table class="table table-striped">
-				                      <colgroup> 
-				                        <col width="55px;">
-				                      </colgroup>
-				                      <thead>
-				                        <tr> 
-				                          <th>상태</th>
-				                          <th>한글명</th>
-				                          <th>영문명</th>
-				                          <th>데이터타입</th>
-				                          <th>데이터길이</th>
-				                        </tr>
-				                      </thead>
-				                      <tbody>
-				                      	<tr>
-				                      		<td></td>
-				                      		<td>컬럼1</td>
-				                      		<td>c_name01</td>
-				                      		<td>varchar</td>
-				                      		<td>200</td>
-				                      	</tr>
-				                      	<tr>
-				                      		<td></td>
-				                      		<td>컬럼2</td>
-				                      		<td>c_name02</td>
-				                      		<td>timestamp</td>
-				                      		<td>300</td>
-				                      	</tr>
-				                      	<tr>
-				                      		<td>신규</td>
-				                      		<td></td>
-				                      		<td>c_name03</td>
-				                      		<td></td>
-				                      		<td></td>
-				                      	</tr>
-				                      </tbody>
-				                    </table>
-		                  		</div>
-	                      </div>
-		            	</div>
-		            	<div class="metatable_box col-5 col-lg-6">
-		            		<div class="row"> 
-	                        	<div class="table_responsive">
-				            		<table class="table table-bordered bulk_action table_center">
-				                        <colgroup>
-				                        </colgroup>
-				                        <thead>
-					                        <tr>
-					                            <th>한글명</th>
-					                            <th>
-					                                <input class="form-control" type="text">
-					                            </th>
-					                            <th>영문명</th>
-					                            <th>
-					                                <input class="form-control" type="text">
-					                            </th>
-					                        </tr>
-					                        <tr>
-					                            <th>데이터타입</th>
-					                            <th>
-					                                <select class="form-control">
-					                                    <option value="">선택</option>
-					                                </select>
-					                            </th>
-					                            <th>데이터 길이</th>
-					                            <th>
-					                                <input class="form-control" type="text">
-					                            </th>
-					                        </tr>
-					                        <tr>
-					                            <th>Not null 여부</th>
-					                            <th>
-					                                <select class="form-control">
-					                                    <option value="">선택</option>
-					                                </select>
-					                            </th>
-					                            <th>데이터셋 종류</th>
-					                            <th>
-					                                <select class="form-control">
-					                                    <option value="">선택</option>
-					                                </select>
-					                            </th>
-					                        </tr>
-					                        <tr>
-					                            <th>PK 정보</th>
-					                            <th>
-					                                <select class="form-control">
-					                                    <option value="">선택</option>
-					                                </select>
-					                            </th>
-					                            <th>FK 정보</th>
-					                            <th>
-					                                <select class="form-control">
-					                                    <option value="">선택</option>
-					                                </select>
-					                            </th>
-					                        </tr>
-					                        <tr>
-					                            <th>참조 테이블 식별자</th>
-					                            <th>
-					                            	<div class="form-control_box duplicate_box">
-						                            	<input class="form-control" type="text" readonly="readonly">
-						                            	<button class="btn btn-primary" onclick="addModal();"> <i class="glyphicon glyphicon-search"></i></button>
-					                            	</div>
-					                            </th>
-					                            <th>참조 테이블명</th>
-					                            <th>
-					                                <input class="form-control" type="text" readonly="readonly">
-					                            </th>
-					                        </tr>
-					                        <tr>
-					                            <th>참조 컬럼 식별자</th>
-					                            <th>
-					                            	<select class="form-control">
-					                                    <option value="">선택</option>
-					                                </select>
-					                            </th>
-					                            <th>참조 컬럼명</th>
-					                            <th>
-					                                <input class="form-control" type="text" readonly="readonly">
-					                            </th>
-					                        </tr>
-					                        <tr>
-					                            <th>개인정보 여부</th>
-					                            <th>
-					                            	<select class="form-control">
-					                                    <option value="">선택</option>
-					                                </select>
-					                            </th>
-					                            <th>암호화 여부</th>
-					                            <th>
-					                            	<select class="form-control">
-					                                    <option value="">선택</option>
-					                                </select>
-					                            </th>
-					                        </tr>
-					                        <tr>
-					                            <th>컬럼 저장 타입</th>
-					                            <th>
-					                            	<select class="form-control">
-					                                    <option value="">선택</option>
-					                                </select>
-					                            </th>
-					                            <th>정렬 순서</th>
-					                            <th>
-					                            	<input class="form-control" type="text">
-					                            </th>
-					                        </tr>
-					                        <tr>
-					                            <th>사용여부</th>
-					                            <th>
-					                            	<input class="form-control" type="text" readonly="readonly">
-					                            </th>
-					                            <th>정렬 순서</th>
-					                            <th>
-					                            	<input class="form-control" type="text">
-					                            </th>
-					                        </tr>
-					                        <tr>
-					                            <th>컬럼설명</th>
-					                            <th>
-					                            	<textarea rows="4" style="width: 100%;"></textarea>
-					                            </th>
-					                            <th>CRUD 설명</th>
-					                            <th>
-					                            	<textarea rows="4" style="width: 100%;"></textarea>
-					                            </th>
-					                        </tr>
-				                        </thead>
-				                    </table>
-		                    	</div>
-		                    </div>
-		            	</div>
-              		</div>
-              </div>
-            </div>
+	<!-- 테이블 컬럼 변경 modal -->
+    <div class="modal fade add_modal" id="table_add_modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="table_myModalLabel">테이블 컬럼 변경</h4>
+            <button class="close" type="button" data-dismiss="modal"></button><span aria-hidden="true">&times;</span>
           </div>
-        </div>
+          <div class="modal-body">
+          	<div class="x_content">
+          		<div class="border_rows">
+                 <div class="row">
+                   <div class="form-group row col-12 col-md-6">
+                     <div class="control-label">테이블 한글명</div>
+                     <div class="form-control_box">문화재</div>
+                   </div>
+                   <div class="form-group row col-12 col-md-6">
+                     <div class="control-label">테이블 영문명</div>
+                     <div class="form-control_box">tb_mun</div>
+                   </div>
+                 </div>
+               </div>
+             <div class="row"> 
+          	<div class="metatable_box col-5">
+          		<div class="row"> 
+                      <div class="table_responsive" style="height: 300px; overflow: auto">
+                    <div class="table_btns mt-1">
+                      <button class="btn btn-info" type="button">테이블 수정</button>
+                      <button class="btn btn-primary">추가</button>
+                    </div>
+                    <div class="talbel_total">총 건</div>
+                    <table class="table table-striped">
+                      <colgroup> 
+                        <col width="55px;">
+                      </colgroup>
+                      <thead>
+                        <tr> 
+                          <th>상태</th>
+                          <th>한글명</th>
+                          <th>영문명</th>
+                          <th>데이터타입</th>
+                          <th>데이터길이</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      	<tr>
+                      		<td></td>
+                      		<td>컬럼1</td>
+                      		<td>c_name01</td>
+                      		<td>varchar</td>
+                      		<td>200</td>
+                      	</tr>
+                      	<tr>
+                      		<td></td>
+                      		<td>컬럼2</td>
+                      		<td>c_name02</td>
+                      		<td>timestamp</td>
+                      		<td>300</td>
+                      	</tr>
+                      	<tr>
+                      		<td>신규</td>
+                      		<td></td>
+                      		<td>c_name03</td>
+                      		<td></td>
+                      		<td></td>
+                      	</tr>
+                      </tbody>
+                    </table>
+                		</div>
+                   </div>
+          	</div>
+          	<div class="metatable_box col-5 col-lg-7">
+          		<div class="row"> 
+                     	<div class="table_responsive">
+                     		<div class="table_btns mt-1">
+		                      <button class="btn btn-primary">저장</button>
+		                    </div>
+		            		<table class="table table-bordered bulk_action table_center">
+		                        <colgroup>
+		                        	<col width="15%">
+		                        	<col width="35%">
+		                        	<col width="15%">
+		                        	<col width="35%">
+		                        </colgroup>
+		                        <thead>
+			                        <tr>
+			                            <th>한글명</th>
+			                            <th>
+			                                <input class="form-control" type="text">
+			                            </th>
+			                            <th>영문명</th>
+			                            <th>
+			                                <input class="form-control" type="text">
+			                            </th>
+			                        </tr>
+			                        <tr>
+			                            <th>데이터타입</th>
+			                            <th>
+			                                <select class="form-control">
+			                                    <option value="">선택</option>
+			                                </select>
+			                            </th>
+			                            <th>데이터 길이</th>
+			                            <th>
+			                                <input class="form-control" type="text">
+			                            </th>
+			                        </tr>
+			                        <tr>
+			                            <th>Not null 여부</th>
+			                            <th>
+			                                <select class="form-control">
+			                                    <option value="">선택</option>
+			                                </select>
+			                            </th>
+			                            <th>데이터셋 종류</th>
+			                            <th>
+			                                <select class="form-control">
+			                                    <option value="">선택</option>
+			                                </select>
+			                            </th>
+			                        </tr>
+			                        <tr>
+			                            <th>PK 정보</th>
+			                            <th>
+			                                <select class="form-control">
+			                                    <option value="">선택</option>
+			                                </select>
+			                            </th>
+			                            <th>FK 정보</th>
+			                            <th>
+			                                <select class="form-control">
+			                                    <option value="">선택</option>
+			                                </select>
+			                            </th>
+			                        </tr>
+			                        <tr>
+			                            <th>참조 테이블 식별자</th>
+			                            <th>
+			                            	<div class="form-control_box">
+				                            	<input class="form-control mr-1" type="text" readonly="readonly" style="display: inline-block; width: 70%;">
+				                            	<button class="btn-sm btn-primary" onclick="addModal();"> <i class="glyphicon glyphicon-search"></i></button>
+			                            	</div>
+			                            </th>
+			                            <th>참조 테이블명</th>
+			                            <th>
+			                                <input class="form-control" type="text" readonly="readonly">
+			                            </th>
+			                        </tr>
+			                        <tr>
+			                            <th>참조 컬럼 식별자</th>
+			                            <th>
+			                            	<select class="form-control">
+			                                    <option value="">선택</option>
+			                                </select>
+			                            </th>
+			                            <th>참조 컬럼명</th>
+			                            <th>
+			                                <input class="form-control" type="text" readonly="readonly">
+			                            </th>
+			                        </tr>
+			                        <tr>
+			                            <th>개인정보 여부</th>
+			                            <th>
+			                            	<select class="form-control">
+			                                    <option value="">선택</option>
+			                                </select>
+			                            </th>
+			                            <th>암호화 여부</th>
+			                            <th>
+			                            	<select class="form-control">
+			                                    <option value="">선택</option>
+			                                </select>
+			                            </th>
+			                        </tr>
+			                        <tr>
+			                            <th>컬럼 저장 타입</th>
+			                            <th>
+			                            	<select class="form-control">
+			                                    <option value="">선택</option>
+			                                </select>
+			                            </th>
+			                            <th>정렬 순서</th>
+			                            <th>
+			                            	<input class="form-control" type="text">
+			                            </th>
+			                        </tr>
+			                        <tr>
+			                            <th>사용여부</th>
+			                            <th>
+			                            	<input class="form-control" type="text" readonly="readonly">
+			                            </th>
+			                            <th>정렬 순서</th>
+			                            <th>
+			                            	<input class="form-control" type="text">
+			                            </th>
+			                        </tr>
+			                        <tr>
+			                            <th>컬럼설명</th>
+			                            <th>
+			                            	<textarea rows="4" style="width: 100%;"></textarea>
+			                            </th>
+			                            <th>CRUD 설명</th>
+			                            <th>
+			                            	<textarea rows="4" style="width: 100%;"></textarea>
+						                </th>
+						            </tr>
+			                        </thead>
+			                    </table>
+	                    	</div>
+	                    </div>
+	            	</div>
+             	</div>
+             </div>
+           </div>
+         </div>
+       </div>
+	</div>
+	
+	<!-- Instance 매칭정보 modal -->
+    <div class="modal fade add_modal" id="instance_add_modal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="instance_myModalLabel">Instance 매칭정보 변경</h4>
+            <button class="close" type="button" data-dismiss="modal"></button><span aria-hidden="true">&times;</span>
+          </div>
+          <div class="modal-body">
+          	<div class="x_content">
+            	<div class="row">
+            		<div class="table_responsive">
+            			<div class="table_btns mt-1">
+	                      <button class="btn btn-primary">API 데이터 설정</button>
+	                    </div>
+	                    <table class="table" style="text-align: center;">
+	                      <colgroup> 
+	                      </colgroup>
+	                      <thead>
+	                      	<tr> 
+	                          <th colspan="2">데이터 모델</th>
+	                          <th colspan="2">Source</th>
+	                          <th colspan="2">전처리</th>
+	                        </tr>
+	                        <tr> 
+	                          <th>속성ID</th>
+	                          <th>속성값</th>
+	                          <th>ID</th>
+	                          <th>수신경로</th>
+	                          <th>속성</th>
+	                          <th>예시</th>
+	                        </tr>
+	                      </thead>
+	                      <tbody>
+	                      	<tr>
+	                      		<td>C_NAME_01</td>
+	                      		<td>String</td>
+	                      		<td>
+	                      			<select class="form-control clct_mthd1" disabled>
+	                                	<option val="">선택</option>
+	                            	</select>
+	                      		</td>
+	                      		<td><input class="form-control" type="text" readonly="readonly"></td>
+	                      		<td>
+	                      			<select class="form-control clct_mthd1" disabled>
+	                                	<option val="">C_NAME_01</option>
+	                            	</select>
+	                      		</td>
+	                      		<td><input class="form-control" type="text" readonly="readonly"></td>
+	                      	</tr>
+	                      	<tr>
+	                      		<td>C_NAME_02</td>
+	                      		<td>Integer</td>
+	                      		<td>
+	                      			<select class="form-control clct_mthd1" disabled>
+	                                	<option val="">C_NAME_02</option>
+	                            	</select>
+	                      		</td>
+	                      		<td><input class="form-control" type="text" readonly="readonly"></td>
+	                      		<td>
+	                      			<select class="form-control clct_mthd1" disabled>
+	                                	<option val="">선택</option>
+	                            	</select>
+	                      		</td>
+	                      		<td><input class="form-control" type="text" readonly="readonly"></td>
+	                      	</tr>
+	                      	<tr>
+	                      		<td>C_NAME_03</td>
+	                      		<td>String</td>
+	                      		<td>
+	                      			<select class="form-control clct_mthd1">
+	                                	<option val="">C_NAME_03</option>
+	                            	</select>
+	                      		</td>
+	                      		<td><input class="form-control" type="text" readonly="readonly"></td>
+	                      		<td>
+	                      			<select class="form-control clct_mthd1">
+	                                	<option val="">선택</option>
+	                            	</select>
+	                      		</td>
+	                      		<td><input class="form-control" type="text"></td>
+	                      	</tr>
+	                      </tbody>
+	                    </table>
+	               	</div>
+             	</div>
+             </div>
+           </div>
+           <div class="modal-footer" id="modal_footer">
+           	<button class="btn btn-primary" type="button">수정</button>
+           </div>
+         </div>
+       </div>
+	</div>
         
 {{>layout/footer}}        
 
 <script>
 
-//모달 추가
-const addModal = function(){
-	$('#add_modal').modal('show');
+//테이블 컬럼 변경 모달 추가
+const table_addModal = function(){
+	$('#table_add_modal').modal('show');
+}
+
+//Instance 매칭정보 변경모달 추가
+const instance_addModal = function(){
+	$('#instance_add_modal').modal('show');
 }
 </script>
 

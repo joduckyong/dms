@@ -1,10 +1,307 @@
 {{>layout/header}}
 
-
+	<div class="right_col" role="main">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="x_panel">
+	                <div class="x_title"> 
+	                  <h2>HOME > 시스템 관리 > 코드 관리</h2>
+	                  <div class="clearfix"> </div>
+	                </div>
+	                <div class="x_title">
+		                <h3>코드 그룹</h3>
+		            </div>
+	                <div class="x_content">
+	                	<div class="right_btns"> 
+		                	<div class="row port_search">
+		                      <div class="form-group row">
+		                        <div class="form-control_box">
+		                          <input class="form-control" type="text">
+		                        </div>
+		                      </div>
+		                      <button class="btn btn-primary btn-sm">검색</button>
+		                    </div>
+		            	</div>
+		            	<div class="table_btns mt-4">
+	                    	<button class="btn btn-primary" type="button" onclick="codeGroup_addModal();">추가</button>
+                    	</div>
+		            	<div class="table_responsive">
+		                	<div class="talbel_total">총 건</div>
+		                    <table class="table table-striped" style="text-align: center;">
+		                        <colgroup>
+		                        </colgroup>
+		                        <thead>
+		                            <tr>
+		                            	<th>분류명</th>
+		                            	<th>분류코드</th>
+		                            	<th>코드그룹ID</th>
+		                            	<th>코드그룹명</th>
+		                            	<th>사용여부</th>
+		                            	<th>코드그룹설명</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+									<tr>
+										<td></td>
+										<td></td>
+										<td>I01</td>
+										<td>사용여부</td>
+										<td>사용</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td>I02</td>
+										<td>데이터포맷유형</td>
+										<td>사용</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td>I03</td>
+										<td>데이터요청기관</td>
+										<td>사용</td>
+										<td></td>
+									</tr>
+		                        </tbody>
+		                    </table>
+		                    <div class="nav justify-content-center">
+		                        <ul class="pagination"></ul>
+		                    </div>
+		                </div>
+	            	</div>
+	        	</div>
+	    	</div>
+		</div>
+		<div class="row">
+	        <div class="col-md-12">
+	            <div class="x_panel">
+	                <div class="x_title">
+		                <h3>코드</h3>
+		            </div>
+	                <div class="x_content">
+	                	<div class="right_btns"> 
+		                	<div class="row port_search">
+		                      <div class="form-group row">
+		                        <div class="form-control_box">
+		                          <input class="form-control" type="text">
+		                        </div>
+		                      </div>
+		                      <button class="btn btn-primary btn-sm">검색</button>
+		                    </div>
+		            	</div>
+		            	<div class="table_btns mt-4">
+	                    	<button class="btn btn-primary" type="button" onclick="code_addModal();">추가</button>
+                    	</div>
+		            	<div class="table_responsive">
+		                	<div class="talbel_total">총 건</div>
+		                    <table class="table table-striped" style="text-align: center;">
+		                        <colgroup>
+		                        </colgroup>
+		                        <thead>
+		                            <tr>
+		                            	<th>코드그룹ID</th>
+		                            	<th>코드ID</th>
+		                            	<th>코드명</th>
+		                            	<th>사용여부</th>
+		                            	<th>코드설명</th>
+		                            	<th>기타코드</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+									<tr>
+										<td>I01</td>
+										<td>I01001</td>
+										<td>사용</td>
+										<td>사용</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>I01</td>
+										<td>I01002</td>
+										<td>미사용</td>
+										<td>사용</td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>I02</td>
+										<td>I02001</td>
+										<td>기상청</td>
+										<td>사용</td>
+										<td></td>
+										<td></td>
+									</tr>
+		                        </tbody>
+		                    </table>
+		                    <div class="nav justify-content-center">
+		                        <ul class="pagination"></ul>
+		                    </div>
+		                </div>
+	            	</div>
+	        	</div>
+	    	</div>
+		</div>
+	</div>
+	
+	<!-- modal -->
+	<div class="modal fade add_modal" id="codeGroup_add_modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="codeGroup_myModalLabel">코드그룹 등록</h4>
+					<button class="close" type="button" data-dismiss="modal"></button><span aria-hidden="true">&times;</span>
+				</div>
+				<div class="modal-body">
+					<div class=x_content>
+						<div class="border_rows">
+							<div class="row">
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">분류명</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">분류코드</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+		                    </div>
+		                    <div class="row">
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">코드그룹ID</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">코드그룹명</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+		                    </div>
+		                    <div class="row">
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">사용여부</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">순번</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+		                    </div>
+		                    <div class="row">
+								<div class="form-group row col-12 col-md-12">
+			                        <div class="control-label">코드그룹설명</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+		                    </div>
+						</div>
+					</div>
+              	</div>
+              	<div class="modal-footer">
+					<button class="btn btn-primary" type="button">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- modal -->
+	<div class="modal fade add_modal" id="code_add_modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="code_myModalLabel">코드 등록</h4>
+					<button class="close" type="button" data-dismiss="modal"></button><span aria-hidden="true">&times;</span>
+				</div>
+				<div class="modal-body">
+					<div class=x_content>
+						<div class="border_rows">
+							<div class="row">
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">코드그룹ID</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">코드ID</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+		                    </div>
+		                    <div class="row">
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">코드명</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">정렬순서</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+		                    </div>
+		                    <div class="row">
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">사용여부</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+								<div class="form-group row col-12 col-md-6">
+			                        <div class="control-label">기타코드</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+		                    </div>
+		                    <div class="row">
+								<div class="form-group row col-12 col-md-12">
+			                        <div class="control-label">코드설명</div>
+			                        <div class="form-control_box">
+			                        	<input class="form-control" type="text">
+			                        </div>
+								</div>
+		                    </div>
+						</div>
+					</div>
+              	</div>
+              	<div class="modal-footer">
+					<button class="btn btn-primary" type="button">저장</button>
+				</div>
+			</div>
+		</div>
+	</div>
         
 {{>layout/footer}}        
 
 <script>
+
+//코드그룹 모달 추가
+const codeGroup_addModal = function(){
+	$('#codeGroup_add_modal').modal('show');
+}
+
+//코드 모달 추가
+const code_addModal = function(){
+	$('#code_add_modal').modal('show');
+}
 
 </script>
 
