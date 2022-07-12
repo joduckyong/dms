@@ -11,7 +11,7 @@
                 <div class="x_content"> <br>
                   <div class="cont_title_box">
                     <h3>Adapter 상세</h3>
-                    <div class="right_btns"><a class="btn btn-primary" href="table.html">목록 </a></div>
+                    <div class="right_btns"><a class="btn btn-primary" href="javascript:listPage();">목록 </a></div>
                   </div>
                   <div class="border_rows">
                     <div class="row">
@@ -38,7 +38,7 @@
                   
                   <div class="cont_title_box">
                     <h3>Instance 목록</h3>
-                    <div class="right_btns"><button class="btn btn-primary">등록</button></div>
+                    <div class="right_btns"><button class="btn btn-primary" onclick="addModal();">등록</button></div>
                   </div>
                                     
                   <div class="table_responsive">
@@ -69,17 +69,6 @@
                         </tr>
                       </thead>
                       <tbody id="dpIngestAdapterIt">
-                        <tr>
-                          <td style="text-align: center;">문화재명1</td>
-                          <td style="text-align: center;">11</td>
-                          <td style="text-align: center;">1111</td>
-                          <td style="text-align: center;">1</td>
-                          <td style="text-align: center;">1</td>
-                          <td style="text-align: center;">1</td>
-                          <td style="text-align: center;">성공</td>
-                          <td style="text-align: center;">2019. 6. 18 오후 1:07:39</td>
-                          <td style="text-align: center;">2019. 6. 18 오후 1:07:39</td>
-                        </tr>
                       </tbody>
                     </table>
                     <div class="nav justify-content-center"> 
@@ -88,6 +77,135 @@
                     </div>   
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- download_modal -->
+        <div class="modal fade add_modal" id="add_modal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg" style="max-width: 900px;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel"><span id="modelLabel">Instance 등록</span></h4>
+                <button class="close" type="button" data-dismiss="modal"></button><span aria-hidden="true">&times;</span>
+              </div>
+              <div class="modal-body">
+				<div class="x_content">
+                  <div class="cont_title_box">
+                    <h3>인스턴스 등록</h3>
+                    <div class="right_btns"><a class="btn btn-primary" href="table.html">저장 </a>
+                    </div>
+                  </div>
+                  <div class="border_rows">
+                    <div class="row">
+                      <div class="form-group row col-12 col-md-6">
+                        <div class="control-label" style="text-align: center;">인스턴스 명</div>
+                        <div class="form-control_box"><input class="form-control" type="text" name="adapter_nm" id="adapter_nm"></div>
+                      </div>
+                      <div class="form-group row col-12 col-md-6">
+                        <div class="control-label" style="text-align: center;">데이터 셋 명</div>
+                        <div class="form-control_box">
+                        	<div class="col-md-9">
+                        		<input class="form-control" type="text" name="adapter_nm" id="adapter_nm">
+                        	</div>
+                        	<div class="col-md-3">
+	                        	<button class="btn btn-primary" onclick="dataSetPopup();"> <i class="glyphicon glyphicon-search"></i></button>
+	                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group row col-12 col-md-6">
+                        <div class="control-label" style="text-align: center;">수집방식</div>
+                        <div class="form-control_box">
+							<select class="form-control" id="clct_mthd">
+                              <option>선택</option>
+                              <option>Option two</option>
+                              <option>Option three</option>
+                              <option>Option four</option>
+                            </select>                        
+                        </div>
+                      </div>
+                      <div class="form-group row col-12 col-md-6">
+                        <div class="control-label" style="text-align: center;">수집유형</div>
+                        <div class="form-control_box">
+							<select class="form-control" id="clct_mthd">
+                              <option>선택</option>
+                              <option>Option two</option>
+                              <option>Option three</option>
+                              <option>Option four</option>
+                            </select>                           
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group row col-12 col-md-6">
+                        <div class="control-label" style="text-align: center;">보관주기</div>
+                        <div class="form-control_box">
+                        	<div class="col-md-6">
+	                        	<input class="form-control" type="text" id="storage_cycle">
+	                        </div>
+	                        <div class="col-md-6">
+							    <select class="form-control" id="storage_type">
+	                              <option>선택</option>
+	                              <option value="년">년</option>
+	                              <option value="월">월</option>
+	                              <option value="일">일</option>
+	                            </select>	          
+                            </div>              
+                        </div>
+                      </div>
+                      <div class="form-group row col-12 col-md-6">
+                        <div class="control-label" style="text-align: center;">시계열 데이터</div>
+                        <div class="form-control_box">Postgresql</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group row col-12 col-md-6">
+                        <div class="control-label" style="text-align: center;">수집 스케줄 유형</div>
+                        <div class="form-control_box">
+                          <div class="radio radio_inline">
+                            <label class="">
+                              <div class="iradio_flat-purple checked" style="position: relative;">
+                                <input class="flat" type="radio" name="schedule_type" value="Y" checked="">
+                              </div>반복
+                            </label>
+                          </div>
+                          <div class="radio radio_inline">
+                            <label>
+                              <div class="iradio_flat-purple" style="position: relative;">
+                                <input class="flat" type="radio" name="schedule_type" value="N">
+                              </div>미반복
+                            </label>
+                          </div>                        
+                        </div>
+                      </div>
+                      <div class="form-group row col-12 col-md-6">
+                        <div class="control-label" style="text-align: center;">사용여부</div>
+                        <div class="form-control_box">Postgresql</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group row col-12 col-md-12">
+                        <div class="control-label" style="text-align: center;">수집 스케줄 설정</div>
+                        <div class="form-control_box">수집대상 메타정보 변경 </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group row col-12 col-md-12">
+                        <div class="control-label" style="text-align: center;">비고</div>
+                        <div class="form-control_box"> 
+                        	<input class="form-control" type="text" name="adapter_nm" id="adapter_nm">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" type="button" onclick="addSave();"><span id="modalBtnLabel">등록</span></button>
+                <button class="btn btn-dark" type="button" onclick="closeModal();">닫기</button>
               </div>
             </div>
           </div>
@@ -224,6 +342,16 @@ const useYnText = function(use_yn){
 	}else{
 		return "사용안함"
 	}
+}
+
+const addModal = function(){
+	
+	$('#add_modal').modal('show');
+}
+
+//목록
+const listPage = function(){
+	location.href = url+'/config';
 }
 
 dpIngestAdapterDt();
