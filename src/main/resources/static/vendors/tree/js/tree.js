@@ -165,8 +165,7 @@ function setBoxStates(e, routingDown, countOnly) { with (this)
  if (countElm)
  {
   while (countElm.firstChild) countElm.removeChild(countElm.firstChild);
-  if (boxCount) countElm.appendChild(document.createTextNode(treeObj.checkFormat.replace('%n%',
-   boxCount)));
+//  if (boxCount) countElm.appendChild(document.createTextNode(treeObj.checkFormat.replace('%n%', boxCount)));
  }
 }};
 
