@@ -38,7 +38,7 @@
                   
                   <div class="cont_title_box">
                     <h3>Instance 목록</h3>
-                    <div class="right_btns"><button class="btn btn-primary" onclick="addModal();">등록</button></div>
+                    <div class="right_btns"><button class="btn btn-primary" onclick="openModal('add_modal');">등록</button></div>
                   </div>
                                     
                   <div class="table_responsive">
@@ -84,7 +84,7 @@
 
         <!-- download_modal -->
         <div class="modal fade add_modal" id="add_modal" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog modal-lg" style="max-width: 900px;">
+          <div class="modal-dialog modal-lg" style="max-width: 1000px;">
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title" id="myModalLabel"><span id="modelLabel">Instance 등록</span></h4>
@@ -94,23 +94,24 @@
 				<div class="x_content">
                   <div class="cont_title_box">
                     <h3>인스턴스 등록</h3>
-                    <div class="right_btns"><a class="btn btn-primary" href="table.html">저장 </a>
+                    <div class="right_btns"><a class="btn btn-primary" href="javascript:dpIngestAdapterItSave();">저장 </a>
                     </div>
                   </div>
                   <div class="border_rows">
                     <div class="row">
                       <div class="form-group row col-12 col-md-6">
                         <div class="control-label" style="text-align: center;">인스턴스 명</div>
-                        <div class="form-control_box"><input class="form-control" type="text" name="adapter_nm" id="adapter_nm"></div>
+                        <div class="form-control_box"><input class="form-control" type="text" name="instance_nm" id="instance_nm"></div>
                       </div>
                       <div class="form-group row col-12 col-md-6">
                         <div class="control-label" style="text-align: center;">데이터 셋 명</div>
                         <div class="form-control_box">
                         	<div class="col-md-9">
-                        		<input class="form-control" type="text" name="adapter_nm" id="adapter_nm">
+                        		<input class="form-control" type="text" name="dset_idntfc_nm" id="dset_idntfc_nm">
+                        		<input type="hidden" name="dset_idntfc_id" id="dset_idntfc_id" >
                         	</div>
                         	<div class="col-md-3">
-	                        	<button class="btn btn-primary" onclick="dataSetPopup();"> <i class="glyphicon glyphicon-search"></i></button>
+	                        	<button class="btn btn-primary" onclick="openModal('dataSet');"> <i class="glyphicon glyphicon-search"></i></button>
 	                        </div>
                         </div>
                       </div>
@@ -119,7 +120,7 @@
                       <div class="form-group row col-12 col-md-6">
                         <div class="control-label" style="text-align: center;">수집방식</div>
                         <div class="form-control_box">
-							<select class="form-control" id="clct_mthd">
+							<select class="form-control" id="clct_mthd" name="clct_mthd">
                               <option>선택</option>
                               <option>Option two</option>
                               <option>Option three</option>
@@ -130,12 +131,12 @@
                       <div class="form-group row col-12 col-md-6">
                         <div class="control-label" style="text-align: center;">수집유형</div>
                         <div class="form-control_box">
-							<select class="form-control" id="clct_mthd">
+                            <select class="form-control" id="clct_ty" name="clct_ty">
                               <option>선택</option>
                               <option>Option two</option>
                               <option>Option three</option>
                               <option>Option four</option>
-                            </select>                           
+                            </select>                          
                         </div>
                       </div>
                     </div>
@@ -144,10 +145,10 @@
                         <div class="control-label" style="text-align: center;">보관주기</div>
                         <div class="form-control_box">
                         	<div class="col-md-6">
-	                        	<input class="form-control" type="text" id="storage_cycle">
+	                        	<input class="form-control" type="text" id="storage_cycle" name="storage_cycle">
 	                        </div>
 	                        <div class="col-md-6">
-							    <select class="form-control" id="storage_type">
+							    <select class="form-control" id="storage_type" name="storage_type">
 	                              <option>선택</option>
 	                              <option value="년">년</option>
 	                              <option value="월">월</option>
@@ -158,7 +159,18 @@
                       </div>
                       <div class="form-group row col-12 col-md-6">
                         <div class="control-label" style="text-align: center;">시계열 데이터</div>
-                        <div class="form-control_box">Postgresql</div>
+	  					   <div class="form-control_box">
+                             <div class="radio radio_inline">
+                               <label class="">
+                                   <input class="" type="radio" name="time_data_yn" value="Y" checked="">예
+                               </label>
+                             </div>
+                             <div class="radio radio_inline">
+                               <label>
+                                   <input class="" type="radio" name="time_data_yn" value="N">아니오
+                               </label>
+                             </div>
+                           </div>
                       </div>
                     </div>
                     <div class="row">
@@ -167,49 +179,298 @@
                         <div class="form-control_box">
                           <div class="radio radio_inline">
                             <label class="">
-                              <div class="iradio_flat-purple checked" style="position: relative;">
-                                <input class="flat" type="radio" name="schedule_type" value="Y" checked="">
-                              </div>반복
+                                <input class="" type="radio" name="schedule_type" value="Y" onclick="jsScheduleType();" checked >반복
                             </label>
                           </div>
                           <div class="radio radio_inline">
                             <label>
-                              <div class="iradio_flat-purple" style="position: relative;">
-                                <input class="flat" type="radio" name="schedule_type" value="N">
-                              </div>미반복
+                                <input class="" type="radio" name="schedule_type" value="N" onclick="jsScheduleType();" >미반복
                             </label>
                           </div>                        
                         </div>
                       </div>
                       <div class="form-group row col-12 col-md-6">
                         <div class="control-label" style="text-align: center;">사용여부</div>
-                        <div class="form-control_box">Postgresql</div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group row col-12 col-md-12">
-                        <div class="control-label" style="text-align: center;">수집 스케줄 설정</div>
-                        <div class="form-control_box">수집대상 메타정보 변경 </div>
+	 					   <div class="form-control_box">
+                             <div class="radio radio_inline">
+                               <label class="">
+                                   <input class="" type="radio" name="useYn" value="Y" checked>사용
+                               </label>
+                             </div>
+                             <div class="radio radio_inline">
+                               <label>
+                                   <input class="" type="radio" name="useYn" value="N">사용안함
+                               </label>
+                             </div>
+                           </div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="form-group row col-12 col-md-12">
                         <div class="control-label" style="text-align: center;">비고</div>
                         <div class="form-control_box"> 
-                        	<input class="form-control" type="text" name="adapter_nm" id="adapter_nm">
+                        	<input class="form-control" type="text" name="etc_note" id="etc_note">
                         </div>
                       </div>
                     </div>
+                    
+					 <div class="row">
+                       <div class="col-md-12">
+                         <div class="x_panel">
+                           <div class="x_content">
+                             <div class="control-label">수집 스케줄 설정</div>
+                             <div class="table_responsive">
+                               <table class="table table-striped table-bordered bulk_action" style="width:100%">
+                                 <colgroup>
+                                   <col width="65px">
+                                   <col width="130px">
+                                   <col width="130px">
+                                   <col width="130px">
+                                   <col width="130px">
+                                   <col width="130px">
+                                   <col width="140px">
+                                 </colgroup>
+                                 <tbody id="repactData">
+                                 <tr>
+                                   <th rowspan="5">
+                                     반복
+                                   </th>
+                                   <th>
+                                       <input class="" type="radio" name="schedule_time_type" value="year" checked>매년
+                                   </th>
+                                   <th>
+                                     <select name="month" id="yearMonth">
+                                     </select>월
+                                   </th>
+                                   <th>
+                                     <select name="day" id="yearDay">
+                                     </select>일
+                                   </th>
+                                   <th>
+                                     <select name="hour" id="yearHour">
+                                     </select> 시
+                                   </th>
+                                   <th>
+                                     <select name="minute" id="yearMinute">
+                                     </select>분
+                                   </th>
+                                   <th>
+                                     <div class="icheckbox_flat-purple" style="position: relative;">
+                                       <input class="flat" type="checkbox" style="position: absolute; opacity: 0;">
+                                     </div>
+                                     <button class="btn btn-xs btn-primary ml-4">즉시실행</button>
+                                   </th>
+                                 </tr>
+                                 <tr>
+	                                <th>
+	                                  <input class="" type="radio" name="schedule_time_type" value="month">매월
+	                                </th>
+	                                <th>
+	                                  <select name="day" id="monthDay">
+	                                  </select>일
+	                                </th>
+	                                <th>
+	                                  <select name="hour" id="monthHour">
+	                                  </select> 시
+	                                </th>
+	                                <th>
+	                                  <select name="minute" id="monthMinute">
+	                                  </select>분
+	                                </th>
+	                                <th></th>
+	                                <th>
+	                                  <div class="icheckbox_flat-purple" style="position: relative;">
+	                                    <input class="flat" type="checkbox" style="position: absolute; opacity: 0;">
+	                                  </div>
+	                                  <button class="btn btn-xs btn-primary ml-4">즉시실행</button>
+	                                </th>
+                                 </tr>
+                                 <tr>
+	                                <th>
+	                                  <input class="" type="radio" name="schedule_time_type" value="week">매주
+	                                </th>
+	                                <th>
+	                                  <select  name="week" id="weekWeek">
+		                                  <option value="">선택</option>
+		                                  <option value="월">월</option>
+		                                  <option value="화">화</option>
+		                                  <option value="수">수</option>
+		                                  <option value="목">목</option>
+		                                  <option value="금">금</option>
+		                                  <option value="토">토</option>
+		                                  <option value="일">일</option>
+	                                  </select>요일
+	                                </th>
+	                                <th>
+	                                  <select name="hour" id="weekHour">
+	                                  </select> 시
+	                                </th>
+	                                <th>
+	                                  <select name="minute" id="weekMinute">
+	                                  </select>분
+	                                </th>
+	                                <th></th>
+	                                <th>
+	                                  <div class="icheckbox_flat-purple" style="position: relative;">
+	                                  	<input class="flat" type="checkbox" style="position: absolute; opacity: 0;">
+	                                  </div>
+	                                  <button class="btn btn-xs btn-primary ml-4">즉시실행</button>
+	                                </th>
+                                 </tr>
+								 <tr>
+	                                <th>
+	                                  <input class="" type="radio" name="schedule_time_type" value="day"> 매일
+	                                </th>
+	                                <th>
+	                                  <select name="hour" id="dayHour">
+	                                  </select> 시
+	                                </th>
+	                                <th>
+	                                  <select name="minute" id="dayMinute">
+	                                  </select>분
+	                                </th>
+	                                <th></th>
+	                                <th></th>
+	                                <th>
+	                                  <div class="icheckbox_flat-purple" style="position: relative;">
+	                                    <input class="flat" type="checkbox" style="position: absolute; opacity: 0;">
+	                                  </div>
+	                                  <button class="btn btn-xs btn-primary ml-4">즉시실행</button>
+	                                </th>
+                                 </tr>
+								 <tr>
+	                                <th>
+	                                  <input class="" type="radio" name="schedule_time_type" value="hour"> 매시
+	                                </th>
+	                                <th>
+	                                  <select name="minute" id="hourMinute">
+	                                  </select>분
+	                                </th>
+	                                <th></th>
+	                                <th></th>
+	                                <th></th>
+	                                <th>
+	                                  <div class="icheckbox_flat-purple" style="position: relative;">
+	                                    <input class="flat" type="checkbox" style="position: absolute; opacity: 0;">
+	                                  </div>
+	                                  <button class="btn btn-xs btn-primary ml-4">즉시실행</button>
+	                                </th>
+                                 </tr>
+                                 </tbody>
+                                 
+                                 <tbody id="noRepactData" style="display:none;">
+                                 <tr>
+                                   <th>
+                                     미반복
+                                   </th>
+                                   <th>
+                                     <select name="year" id="noRepactYear">
+                                     </select>
+                                     년
+                                   </th>
+                                   <th>
+                                     <select name="month" id="noRepactMonth">
+                                     </select>월
+                                   <th>
+                                     <select name="day" id="noRepactDay">
+                                     </select>일
+                                   </th>
+                                   <th>
+                                     <select name="hour" id="noRepactHour">
+                                     </select> 시
+                                   </th>
+                                   <th>
+                                     <select name="minute" id="noRepactMinute">
+                                     </select>분
+                                   </th>
+                                   <th>
+                                     <div class="icheckbox_flat-purple" style="position: relative;">
+                                       <input class="flat" type="checkbox" style="position: absolute; opacity: 0;">
+                                     </div>
+                                     <button class="btn btn-xs btn-primary ml-4">즉시실행</button>
+                                   </th>
+                                 </tr>
+                                 </tbody>
+                               </table>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>					
+					                  
                   </div>
                 </div>
               </div>
-              <div class="modal-footer">
+              <!-- div class="modal-footer">
                 <button class="btn btn-primary" type="button" onclick="addSave();"><span id="modalBtnLabel">등록</span></button>
                 <button class="btn btn-dark" type="button" onclick="closeModal();">닫기</button>
+              </div-->
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal fade add_modal" id="dataSet" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg" style="max-width: 600px;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title" id="myModalLabel">데이터셋 선택</h3>
+                <button class="close" type="button" data-dismiss="modal"></button><span aria-hidden="true">&times;</span>
+              </div>
+              <div class="modal-body">
+				<div class="x_content">
+                  <div class="border_rows">
+                    <div class="row">
+                      <div class="form-group row col-12 col-md-12">
+                        <div class="col-md-12">
+	                        <div class="form-control_box"> 
+	                        	<input class="form-control" type="text" name="searchNm" id="searchNm" onkeypress="enterkey(event);">
+	                        </div>
+                        </div>
+                      </div>
+                      <div class="form-group row col-12 col-md-12">
+	                      <div class="col-md-12">
+	                        <div class="form-control_box"> 
+	                        	<div class="right_btns"><a class="btn btn-primary" href="javascript:dpIngestPopupDset01();">검색 </a></div>
+	                        </div>
+	                      </div>
+                     </div>
+					 <div class="row">
+                       <div class="col-md-12">
+                         <div class="x_panel">
+                           <div class="x_content" style="width:100%;max-height:500px; overflow-y:auto;">
+                             <div class="table_responsive">
+                               <table class="table table-striped table-bordered bulk_action" >
+                                 <colgroup>
+                                 </colgroup>
+                                 <thead>
+                                 <tr>
+                                   <th rowspan="2" style="text-align: center;">데이터 셋 명</th>
+                                   <th colspan="2" style="text-align: center;">테이블</th>
+                                 </tr>
+                                 <tr>
+                                   <th style="text-align: center;">한글 명</th>
+                                   <th style="text-align: center;">영문 명</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody id="dataSetInfo">
+                                 </tbody>
+                               </table>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>					
+					                  
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="modal fade add_modal" id="modal_hidden" tabindex="-1" role="dialog" aria-hidden="true">
+        	<div class="modal-dialog modal-lg" style="max-width: 1000px;"></div>
+        </div>
+        <input type="hidden" name="instance_id" id="instance_id">
         
 {{>layout/footer}}        
 
@@ -344,9 +605,21 @@ const useYnText = function(use_yn){
 	}
 }
 
-const addModal = function(){
+//모달 열기
+const openModal = function(modalId){
 	
-	$('#add_modal').modal('show');
+	if(modalId == 'add_modal'){
+		dpIngestAdapterItIdChk();
+	}else if(modalId == 'dataSet'){
+		$('footer').hide();
+	}
+	
+	$('#'+modalId).modal('show');
+}
+
+// 모달 창 닫기
+const closeModal = function(modalId){
+	$('#'+modalId).modal('hide');
 }
 
 //목록
@@ -354,6 +627,291 @@ const listPage = function(){
 	location.href = url+'/config';
 }
 
+// 레이어 날짜 셋팅
+const instancePopupInit = function() {
+
+    $("#yearMinute").empty();
+    $("#monthMinute").empty();
+    $("#weekMinute").empty();
+    $("#dayMinute").empty();
+    $("#hourMinute").empty();
+    $("#noRepactMinute").empty();
+
+    $("#yearDay").empty();
+    $("#monthDay").empty();
+    $("#noRepactDay").empty();
+
+    $("#yearHour").empty();
+    $("#monthHour").empty();
+    $("#weekHour").empty();
+    $("#dayHour").empty();
+    $("#noRepactHour").empty();
+
+    //월
+    let monthHTML = "";
+    monthHTML += `<option value="">선택</option>`;
+    for (let i = 1; i < 13; i++) {
+    	monthHTML += `<option value="`+i+`">`+i+`</option>`;
+    }
+    $("#yearMonth").append(monthHTML);
+    $("#noRepactMonth").append(monthHTML);
+    
+    //일
+    let dayHTML = "";
+    dayHTML += `<option value="">선택</option>`;
+    for (let i = 1; i < 32; i++) {
+      dayHTML += `<option value="`+i+`">`+i+`</option>`;
+    }
+    $("#yearDay").append(dayHTML);
+    $("#monthDay").append(dayHTML);
+    $("#noRepactDay").append(dayHTML);
+
+    //분
+    let minuteHTML = "";
+    minuteHTML += `<option value="">선택</option>`;
+    for (let i = 0; i < 60; i++) {
+      minuteHTML += `<option value="`+i+`">`+i+`</option>`;
+    }
+    $("#yearMinute").append(minuteHTML);
+    $("#monthMinute").append(minuteHTML);
+    $("#weekMinute").append(minuteHTML);
+    $("#dayMinute").append(minuteHTML);
+    $("#hourMinute").append(minuteHTML);
+    $("#noRepactMinute").append(minuteHTML);
+    
+    //시
+    let hourHTML = "";
+    hourHTML += `<option value="">선택</option>`;
+    for (let i = 1; i < 25; i++) {
+      hourHTML += `<option value="`+i+`">`+i+`</option>`;
+    }
+    $("#yearHour").append(hourHTML);
+    $("#monthHour").append(hourHTML);
+    $("#weekHour").append(hourHTML);
+    $("#dayHour").append(hourHTML);
+    $("#noRepactHour").append(hourHTML);
+
+    //년
+    let date0 = new Date();
+    let date1 = new Date();
+    date1.setFullYear(date1.getFullYear() + 6);    
+    
+    let yearHTML = "";
+    yearHTML += `<option value="">선택</option>`;
+    for (let i = date0.getFullYear(); i < date1.getFullYear(); i++) {
+    	yearHTML += `<option value="`+i+`">`+i+`</option>`;
+    }
+    $("#noRepactYear").append(yearHTML);
+}
+
+// 레이어 수집 스케줄 설정 
+const jsScheduleType = function() {
+		
+	let schedule_typeVal = $('input:radio[name="schedule_type"]:checked').val();
+	
+    if(schedule_typeVal === "Y"){
+        $("#repactData").show();
+        $("#noRepactData").hide();
+    }else{
+        $("#repactData").hide();
+        $("#noRepactData").show();
+    }
+}
+
+// 레이어 Instance ID 자동증가
+const dpIngestAdapterItIdChk = function(){
+	
+    const data = {
+	   		url: '/dp/ingest/adapter/instance/id/check',
+	    };		
+	    
+	    $.ajax({
+	        type: 'POST',
+	        url: commonUrl+'/dpIngestAdapterItIdChk',
+	        dataType: 'json',
+	        contentType: 'application/json; charset-utf-8',
+	        data: JSON.stringify(data)
+	    }).done(function (data) {
+		  	  if (data != null) {
+			  	   	if(data.contents != ""){    	
+		    	   		 $.each(data.contents, function (idx, el) {
+				    	    	$("#instance_id").val(el.instance_id);
+			 	     	 });			  	   		
+			  	   	}
+		  	  }
+	    	  
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });
+}
+
+// 레이어 Instance 저장
+const dpIngestAdapterItSave = function(){
+	
+    let scheduleType = null;
+    let scheduleTimeTpe = null;
+    let scheduleYear = null;
+    let scheduleMonth = null;
+    let scheduleDay = null;
+    let scheduleHour = null;
+    let scheduleMinute = null;
+
+    if($("input:radio[name='schedule_type']:checked").val() === "Y"){
+      scheduleType = "반복";
+      if($("input:radio[name='schedule_time_type']:checked").val() === "year"){
+        scheduleTimeTpe = "year";
+        scheduleMonth = $("yearMonth").val();
+        scheduleDay = $("yearDay").val();
+        scheduleHour = $("yearHour").val();
+        scheduleMinute = $("yearMinute").val();
+
+      }else if($("input:radio[name='schedule_time_type']:checked").val() === "month"){
+        scheduleTimeTpe = "month";
+        scheduleDay = $("monthDay").val();
+        scheduleHour = $("monthHour").val();
+        scheduleMinute = $("monthMinute").val();
+
+      }else if($("input:radio[name='schedule_time_type']:checked").val() === "week"){
+        scheduleTimeTpe = "week";
+        scheduleHour = $("weekHour").val();
+        scheduleMinute = $("weekMinute").val();
+
+      }else if($("input:radio[name='schedule_time_type']:checked").val() === "day"){
+        scheduleTimeTpe = "day";
+        scheduleHour = $("dayHour").val();
+        scheduleMinute = $("dayMinute").val();
+
+      }else if($("input:radio[name='schedule_time_type']:checked").val() === "hour"){
+        scheduleTimeTpe = "hour";
+        scheduleMinute = $("hourMinute").val();
+      }
+    }else{
+      scheduleType = "미반복";
+      scheduleYear = $("noRepactYear").val();
+      scheduleMonth = $("noRepactMonth").val();
+      scheduleDay = $("noRepactDay").val();
+      scheduleHour = $("noRepactHour").val();
+      scheduleMinute = $("noRepactMinute").val();
+    }
+    
+	const data = {
+	   		url: '/dp/ingest/adapter/instance/save',
+	   		adapter_id: "{{adapter_id}}",	
+	   		instance_id: $("#instance_id").val(),	
+	   		instance_nm: $("#instance_nm").val(),	
+	   		dset_idntfc_id:	$("#dset_idntfc_id").val(),
+	   		dset_korean_nm:	$("#dset_idntfc_nm").val(),
+	   		use_yn:	$('input:radio[name="useYn"]:checked').val(),
+	   		storage_cycle: $("#storage_cycle").val(),		
+	   		storage_type: $("#storage_type").val(),		
+	   		schedule_type: scheduleType,	
+	   		schedule_time_type:	scheduleTimeTpe,
+	   		schedule_now_exe: null,	
+	   		schedule_year: scheduleYear,	
+	   		schedule_month:	scheduleMonth, 
+	   		schedule_day: scheduleDay,	
+	   		schedule_hour: scheduleHour,	
+	   		schedule_minute: scheduleMinute,	
+	   		etc_note: $("etc_note").val(),	
+	   		time_data_yn: $("input:radio[name='time_data_yn']:checked").val(),	
+	   		subfolder_yn: null,	
+	   		url_mix: null,	
+	   		clct_mthd: $("#clct_mthd").val(),	
+	   		clct_ty: $("#clct_ty").val(),	
+	   		user_id: 'user00',	
+	   		menu_id: 'menu_id',
+	    };		
+	
+	    $.ajax({
+	        type: 'POST',
+	        url: url+'/dpIngestAdapterItSave',
+	        dataType: 'json',
+	        contentType: 'application/json; charset-utf-8',
+	        data: JSON.stringify(data)
+	    }).done(function (data) {
+	  		
+	  		let message = JSON.stringify(data.return_msg);
+	  		alert(message.replace(/\"/gi, ''));
+	  		closeModal('add_modal');
+	  		
+	   		$("#instance_id").val("");	
+	   		$("#instance_nm").val("");	
+	   		$("#dset_idntfc_id").val("");
+	   		$("#dset_idntfc_nm").val("");
+	   		$("#storage_cycle").val("");		
+	   		$("#storage_type").val("");	
+	   		$("#clct_mthd").val("")	
+	   		$("#clct_ty").val("");
+	   		
+	  		dpIngestAdapterDt();
+	  		
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });	
+}
+
+//엔터키가 눌렸을 때
+const enterkey = function(e) {
+	if (e.keyCode == 13) {
+		dpIngestPopupDset01();
+    }
+}
+
+// 데이터 셋 값 셋팅
+const dataSetId = function(dset_idntfc_id, dset_korean_nm){
+	
+	$("#dset_idntfc_id").val(dset_idntfc_id);		    
+	$("#dset_idntfc_nm").val(dset_korean_nm);		 
+	
+	closeModal('dataSet');
+	$('footer').show();
+	
+	setTimeout(function() {
+		openModal('modal_hidden');
+		$('.modal-backdrop').remove();
+	}, 1000);	
+}
+
+// 데이터 셋 명 검색
+const dpIngestPopupDset01 = function(){
+	
+    const data = {
+	   		url: '/dp/ingest/popup/dataset01',
+	   		user_id: 'user00',	
+	   		menu_id: 'menu_id',
+	   		search: $("#searchNm").val(),	
+	    };		
+	    
+	    $.ajax({
+	        type: 'POST',
+	        url: url+'/dpIngestPopupDset01',
+	        dataType: 'json',
+	        contentType: 'application/json; charset-utf-8',
+	        data: JSON.stringify(data)
+	    }).done(function (data) {
+		  	  if (data != null) {
+			  	   	if(data.contents != ""){    	
+		    	   		 $.each(data.contents, function (idx, el) {
+		    	   			 
+	    		     	    let insertTr = '';
+	    			  	    $.each(data.contents, function (idx, el) {
+	    		     	          insertTr += '<tr>';
+	    		     		      insertTr += ' <td style="text-align: center;cursor:pointer" ondblclick=dataSetId("'+ el.rl_dset_idntfc_id +'","'+ el.dset_korean_nm +'")>'+isEmpty(el.dset_korean_nm)+'</td>';
+	    		     		      insertTr += ' <td style="text-align: center;">'+isEmpty(el.table_korean_nm)+'</td>';
+	    		     		      insertTr += ' <td style="text-align: center;">'+isEmpty(el.table_eng_nm)+'</td>';
+	    		                  insertTr += '</tr>';
+	    			  	    });
+	    	          	    $("#dataSetInfo").append(insertTr);		    	   			 
+			 	     	 });			  	   		
+			  	   	}
+		  	  }
+	    	  
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });
+}
+
 dpIngestAdapterDt();
+instancePopupInit();
 </script>
 
