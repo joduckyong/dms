@@ -499,7 +499,7 @@ const dpIngestMetaTbl = function (page, size_per_page) {
 		  	    	insertTr += '	<td>'+isEmpty(el.table_korean_nm)+'</td>';
 		  	    	insertTr += '	<td>'+isEmpty(el.table_eng_nm)+'</td>';
 		  	    	insertTr += '	<td>'+isEmpty(el.creat_table_at)+'</td>';
-		  	    	insertTr += '	<td><button class="btn btn-success btn-sm mx-0" type="button" onclick="location.href=\'/metaTable/columnInfo\'">바로가기</button></td>';
+		  	    	insertTr += '	<td><button class="btn btn-success btn-sm mx-0" type="button" onclick="columnInfoList(\''+el.table_idntfc_id+'\');">바로가기</button></td>';
 		  	    	insertTr += '</tr>';
 		  	    });
 		  	  $("#metaList").html(insertTr);
@@ -703,16 +703,8 @@ const btnAdd = function(){
 	}
 }
 
-//삭제 버튼
-const btnDelete = function(){
-	if($("#tbl_layer").css("display") == "none"){
-	    $("#tbl_layer").show();
-	    dpCmCategoryDataset();
-	    let offset = $('#dataset_layer').offset();
-	    $('html').animate({scrollTop : offset.top}, 300);
-	} else {
-	    $("#tbl_layer").hide();
-	}
+const columnInfoList = function(tableIdntfcId){
+	location.href = url+'/columnInfo/'+tableIdntfcId;
 }
 
 //페이징 함수 호출
