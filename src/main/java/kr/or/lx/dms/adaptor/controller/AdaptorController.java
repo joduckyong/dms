@@ -91,6 +91,13 @@ public class AdaptorController {
 		return "dms/adaptor/preProcessAdd";
 	}	
 	
+	@GetMapping("/preProcessDetail/{pre_id}")
+	public String preProcessDetail(@PathVariable String pre_id, ModelMap model) throws Exception{
+		
+		model.put("pre_id", pre_id);	
+		return "dms/adaptor/preProcessDetail";
+	}	
+	
 	@ResponseBody
 	@PostMapping("{apiId}")
 	public Object adaptorApi(@RequestBody Map<String, Object> param, ModelMap model) throws Exception{

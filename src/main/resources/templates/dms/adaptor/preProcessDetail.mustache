@@ -12,10 +12,11 @@
                 
                   <form class="form-horizontal form-label-left">
                     <div class="cont_title_box"> 
-                      <h3>전처리 등록</h3>
+                      <h3>전처리 상세</h3>
                       <div class="right_btns"> 
                         <a class="btn btn-success" href="javascript:listPage();">목록</a>
-                        <button class="btn btn-primary" onclick="dpIngestPreSave();">저장</button>
+                        <a class="btn btn-danger" href="javascript:dpIngestPreIdDelChk('U');">삭제</a>
+                        <button class="btn btn-primary" onclick="dpIngestPreIdDelChk('D');">수정</button>
                       </div>
                     </div>
                     <div class="row">
@@ -23,7 +24,7 @@
                         <label class="control-label">전처리 명</label>
                         <div class="form-control_box">
                           <input class="form-control" type="text" name="pre_nm" id="pre_nm">
-                          <input type="hidden" name="pre_id" id="pre_id">
+                          <input type="hidden" name="chk_yn" id="chk_yn">
                         </div>
                       </div>
                       <div class="form-group row col-12 col-md-6">
@@ -114,51 +115,80 @@ const changeType = function(val){
 	}
 }
 
-//전처리 ID 자동증가
-const dpIngestPreIdChk = function(){
-	
-    const data = {
-	   		url: '/dp/ingest/pre/id/check',
-	    };		
-	    
-	    $.ajax({
-	        type: 'POST',
-	        url: commonUrl+'/dpIngestPreIdChk',
-	        dataType: 'json',
-	        contentType: 'application/json; charset-utf-8',
-	        data: JSON.stringify(data)
-	    }).done(function (data) {
-		  	  if (data != null) {
-			  	   	if(data.contents != ""){    	
-		    	   		 $.each(data.contents, function (idx, el) {
-				    	    	$("#pre_id").val(el.instance_id);
-			 	     	 });			  	   		
-			  	   	}
-		  	  }
-	    	  
-	    }).fail(function (error) {
-	        alert(JSON.stringify(error));
-	    });	
-}
-
-//전처리 저장
-const dpIngestPreSave = function(){
+//전처리 수정
+const dpIngestPreUpdate = function(){
 	
 	const data = {
-	   		url: '/dp/ingest/pre/save',
-	   		pre_id: $("#pre_id").val(),		
-	   		pre_nm: $("#pre_nm").val(),			
-	   		property_type: $("#property_type").val(),				
-	   		number_digit: $("#number_digit").val(),		
-	   		change_shape: $("#change_shape").val(),		
+	   		url: '/dp/ingest/pre/update/{{pre_id}}',
+	   		pre_id: "{{pre_id}}",		
+	   		pre_nm:	$("#pre_nm").val(),
+	   		property_type: $("#property_type").val(),	
+	   		number_digit: $("#number_digit").val(),	
+	   		change_shape: $("#change_shape").val(),	
 	   		pre_before: $("#pre_before").val(),	
 	   		pre_after: $("#pre_after").val(),	
-	   		start_digit: $("#pre_after").val(),	
+	   		start_digit: $("#start_digit").val(),	
 	   		end_digit: $("#end_digit").val(),	
 //	   		integer: $("#integer").val(),	
 //	   		decimal_point: $("#decimal_point").val(),	
 //	   		change_word: $("#change_word").val(),	
 //	   		chang_type: $("#chang_type").val(),	
+	   		user_id: 'user00',	
+	   		menu_id: 'menu_id',	   		
+	    };		
+	
+	    $.ajax({
+	        type: 'POST',
+	        url: url+'/dpIngestPreUpdate',
+	        dataType: 'json',
+	        contentType: 'application/json; charset-utf-8',
+	        data: JSON.stringify(data)
+	    }).done(function (data) {
+  		
+	  	  if (data != null) {
+		  		let message = JSON.stringify(data.return_msg);
+		  		alert(message.replace(/\"/gi, ''));
+	  	  }
+		  	  
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });	
+}
+
+//전처리 삭제
+const dpIngestPreDel = function(){
+	
+	const data = {
+	   		url: '/dp/ingest/pre/delete',
+	   		pre_id: "{{pre_id}}",		
+	   		user_id: 'user00',	
+	   		menu_id: 'menu_id',
+	    };		
+	
+	    $.ajax({
+	        type: 'POST',
+	        url: url+'/dpIngestPreDel',
+	        dataType: 'json',
+	        contentType: 'application/json; charset-utf-8',
+	        data: JSON.stringify(data)
+	    }).done(function (data) {
+  		
+	  	  if (data != null) {
+		  		let message = JSON.stringify(data.return_msg);
+		  		alert(message.replace(/\"/gi, ''));
+	  	  }
+		  	  
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });	
+}
+
+//전처리 사용 체크
+const dpIngestPreIdDelChk = function(type){
+	
+	const data = {
+	   		url: '/dp/ingest/pre/id/delete/check',
+	   		pre_id: "{{pre_id}}",		
 	   		user_id: 'user00',	
 	   		menu_id: 'menu_id',
 	    };		
@@ -170,10 +200,69 @@ const dpIngestPreSave = function(){
 	        contentType: 'application/json; charset-utf-8',
 	        data: JSON.stringify(data)
 	    }).done(function (data) {
-	  		
-	  		let message = JSON.stringify(data.return_msg);
-	  		alert(message.replace(/\"/gi, ''));
-	  		
+  		
+	  	  if (data != null) {
+		  		let message = JSON.stringify(data.return_msg);
+		  		alert(message.replace(/\"/gi, ''));
+		  	   	if(data.contents != ""){    	
+	    	   		 $.each(data.contents, function (idx, el) {
+	     	   			if(el.chk_yn == 'N'){
+	     	   				if(type == "U"){
+	     	   					//수정
+		     	   				dpIngestPreUpdate();
+	     	   				}else{
+	     	   					//삭제
+			     	   			dpIngestPreDel();
+	     	   				}
+	    	   			}
+		 	     	 });			  	   		
+		  	   	}
+	  	  }
+		  	  
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });	
+}
+
+//전처리 상세 조회
+const dpIngestPreDt = function(){
+	
+	const data = {
+	   		url: '/dp/ingest/pre/detail',
+	   		pre_id: "{{pre_id}}",		
+	   		user_id: 'user00',	
+	   		menu_id: 'menu_id',
+	    };		
+	
+	    $.ajax({
+	        type: 'POST',
+	        url: url+'/dpIngestPreDt',
+	        dataType: 'json',
+	        contentType: 'application/json; charset-utf-8',
+	        data: JSON.stringify(data)
+	    }).done(function (data) {
+  		
+	  	  if (data != null) {
+		  		let message = JSON.stringify(data.return_msg);
+		  		alert(message.replace(/\"/gi, ''));
+		  	   	if(data.contents != ""){    	
+	    	   		 $.each(data.contents, function (idx, el) {
+	    	   			$("#pre_nm").val(el.pre_nm);
+	    	   			$("#property_type").val(el.property_type);
+	    	   			$("#number_digit").val(el.number_digit);
+	    	   			$("#change_shape").val(el.change_shape);
+	    	   			$("#pre_before").val(el.pre_before);
+	    	   			$("#pre_after").val(el.pre_after);
+	    	   			$("#start_digit").val(el.start_digit);
+	    	   			$("#end_digit").val(el.end_digit);
+	    	//   			$("#integer").val(el.integer);
+	    	//   			$("#decimal_point").val(el.decimal_point);
+	    	//   			$("#change_word").val(el.change_word);
+	    	//   			$("#chang_type").val(el.chang_type);
+		 	     	 });			  	   		
+		  	   	}
+	  	  }
+		  	  
 	    }).fail(function (error) {
 	        alert(JSON.stringify(error));
 	    });	
@@ -184,6 +273,6 @@ const listPage = function(){
 	location.href = url+'/preProcessList';
 }
 
-//dpIngestPreIdChk();
+dpIngestPreDt();
 </script>
 

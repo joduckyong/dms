@@ -467,10 +467,11 @@
             </div>
           </div>
         </div>
-        <div class="modal fade add_modal" id="modal_hidden" tabindex="-1" role="dialog" aria-hidden="true">
-        	<div class="modal-dialog modal-lg" style="max-width: 1000px;"></div>
-        </div>
-        <input type="hidden" name="instance_id" id="instance_id">
+       </div>
+       <div class="modal fade add_modal" id="modal_hidden" tabindex="-1" role="dialog" aria-hidden="true">
+       	<div class="modal-dialog modal-lg" style="max-width: 1000px;"></div>
+       </div>
+       <input type="hidden" name="instance_id" id="instance_id">
         
 {{>layout/footer}}        
 
@@ -889,20 +890,18 @@ const dpIngestPopupDset01 = function(){
 	        contentType: 'application/json; charset-utf-8',
 	        data: JSON.stringify(data)
 	    }).done(function (data) {
+	    	  $("#dataSetInfo").empty();
 		  	  if (data != null) {
 			  	   	if(data.contents != ""){    	
-		    	   		 $.each(data.contents, function (idx, el) {
-		    	   			 
-	    		     	    let insertTr = '';
-	    			  	    $.each(data.contents, function (idx, el) {
-	    		     	          insertTr += '<tr>';
-	    		     		      insertTr += ' <td style="text-align: center;cursor:pointer" ondblclick=dataSetId("'+ el.rl_dset_idntfc_id +'","'+ el.dset_korean_nm +'")>'+isEmpty(el.dset_korean_nm)+'</td>';
-	    		     		      insertTr += ' <td style="text-align: center;">'+isEmpty(el.table_korean_nm)+'</td>';
-	    		     		      insertTr += ' <td style="text-align: center;">'+isEmpty(el.table_eng_nm)+'</td>';
-	    		                  insertTr += '</tr>';
-	    			  	    });
-	    	          	    $("#dataSetInfo").append(insertTr);		    	   			 
-			 	     	 });			  	   		
+    		     	    let insertTr = '';
+    			  	    $.each(data.contents, function (idx, el) {
+    		     	          insertTr += '<tr>';
+    		     		      insertTr += ' <td style="text-align: center;cursor:pointer" ondblclick=dataSetId("'+ el.rl_dset_idntfc_id +'","'+ el.dset_korean_nm +'")>'+isEmpty(el.dset_korean_nm)+'</td>';
+    		     		      insertTr += ' <td style="text-align: center;">'+isEmpty(el.table_korean_nm)+'</td>';
+    		     		      insertTr += ' <td style="text-align: center;">'+isEmpty(el.table_eng_nm)+'</td>';
+    		                  insertTr += '</tr>';
+    			  	    });
+    	          	    $("#dataSetInfo").append(insertTr);		    	   			 
 			  	   	}
 		  	  }
 	    	  
