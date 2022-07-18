@@ -106,7 +106,7 @@
 			            </div>
 			            <div class="x_content">
 			            	<div class="table_btns mt-4">
-		                    	<button class="btn btn-primary" type="button" onclick="dpIngestMetaTblSaveDset();">저장</button>
+		                    	<button class="btn btn-primary" type="button" onclick="metaDsetSaveBtn();">저장</button>
 	                    	</div>
 	                    	<div class="table_responsive">
 			                    <table class="table table-bordered bulk_action table_center">
@@ -209,7 +209,7 @@
 			            </div>
 			            <div class="x_content">
 			            	<div class="table_btns mt-4">
-		                    	<button class="btn btn-primary" type="button" onclick="dpIngestMetaTblSaveTbl();">저장</button>
+		                    	<button class="btn btn-primary" type="button" onclick="metaTblSaveBtn();">저장</button>
 	                    	</div>
 			                <div class="table_responsive">
 			                    <table class="table table-bordered bulk_action table_center">
@@ -283,7 +283,7 @@
 			                            </th>
 			                            <th>수집 테이블 생성 여부</th>
 			                            <th>
-			                                <input class="form-control" type="text" readonly="readonly">
+			                                <input class="form-control" type="text" name="creat_table_at2" id="creat_table_at2" readonly="readonly">
 			                            </th>
 			                        </tr>
 			                        </thead>
@@ -298,6 +298,10 @@
 		</div>
 	</div>
 	<input type="hidden" name="rl_dset_idntfc_id" id="rl_dset_idntfc_id"/>
+	<input type="hidden" name="dset_idntfc_id" id="dset_idntfc_id"/>
+	<input type="hidden" name="table_idntfc_id" id="table_idntfc_id"/>
+	<input type="hidden" name="btn_type" id="btn_type"/>
+	<input type="hidden" name="temp_table_eng_nm" id="temp_table_eng_nm"/>
         
 {{>layout/footer}}        
 
@@ -393,7 +397,8 @@ const dpCmCategoryDataset = function (clsf_type, clsf_id) {
         url: commonUrl+'/dpCmCategoryDataset',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(data)
+        data: JSON.stringify(data),
+        async: false,
     }).done(function (data) {
     	
 	  	  if (data != null) {
@@ -495,7 +500,7 @@ const dpIngestMetaTbl = function (page, size_per_page) {
 		  	    	insertTr += '	<td>'+isEmpty(dset_sclas)+'</td>';
 		  	    	insertTr += '	<td>'+isEmpty(el.clct_mthd)+'</td>';
 		  	    	insertTr += '	<td>'+isEmpty(el.clct_ty)+'</td>';
-		  	    	insertTr += '	<td>'+isEmpty(el.dset_korean_nm)+'</td>';
+		  	    	insertTr += '	<td><span class="blue bold" style="cursor:pointer" onclick="dpIngestMetaDetail(\''+el.rl_dset_idntfc_id+'\', \''+el.table_idntfc_id+'\');">'+isEmpty(el.dset_korean_nm)+'</span></td>';
 		  	    	insertTr += '	<td>'+isEmpty(el.table_korean_nm)+'</td>';
 		  	    	insertTr += '	<td>'+isEmpty(el.table_eng_nm)+'</td>';
 		  	    	insertTr += '	<td>'+isEmpty(el.creat_table_at)+'</td>';
@@ -508,6 +513,93 @@ const dpIngestMetaTbl = function (page, size_per_page) {
   	    	paging(data.totalcount, size_per_page, pageCount, page);
 	  	  }
     	  
+    }).fail(function (error) {
+        alert(JSON.stringify(error));
+    });	
+}
+
+//메타테이블 데이터셋 항목 상세
+const dpIngestMetaTblDset = function (dset_idntfc_id) {
+	
+	const data = {
+   		url: '/dp/ingest/meta/tables/dataset',
+   		user_id: 'user00',	
+   		dset_idntfc_id: dset_idntfc_id,
+    };
+	
+    $.ajax({
+        type: 'POST',
+        url: url+'/dpIngestMetaTblDset',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data),
+    }).done(function (data) {
+	  	  if (data != null) {
+  	    	if(data.contents != ""){
+  	    		$("#dset_idntfc_id").val(dset_idntfc_id);
+	  	    	$("#dset_korean_nm").val(data.contents[0].dset_korean_nm);
+	  	    	$("#clct_mthd").val(data.contents[0].clct_mthd);
+	  	    	$("#dset_dc").val(data.contents[0].dset_dc);
+	  	    	$("#clct_ty").val(data.contents[0].clct_ty);
+	  	    	$("#dset_owner").val(data.contents[0].dset_owner).prop("selected", true);
+	  	    	$("#crud_se").val(data.contents[0].crud_se).prop("selected", true);
+	  	    	$("#crud_dc").val(data.contents[0].crud_dc);
+	  	    	$("#use_at").val(data.contents[0].use_at).prop("selected", true);
+	  	    	$("#creat_table_at").val(data.contents[0].creat_table_at);
+	  	    	
+	  	    	let dset_lclas = data.contents[0].dset_lclas;
+	  	    	let dset_mclas = data.contents[0].dset_mclas;
+	  	    	let dset_sclas = data.contents[0].dset_sclas;
+	  	    	
+  	    		dpCmCategoryDataset();
+  	    		$("#dset_lclas").val(dset_lclas).prop("selected", true);
+  	    		
+	  	    	if(dset_mclas){
+	  	    		dpCmCategoryDataset('1', dset_lclas);
+	  	    		$("#dset_mclas").val(dset_mclas).prop("selected", true);
+	  	    	}
+	  	    	if(dset_sclas){
+	  	    		dpCmCategoryDataset('2', dset_mclas);
+	  	    		$("#dset_sclas").val(dset_sclas).prop("selected", true);
+	  	    	}
+  	    	}
+	  	  }
+    }).fail(function (error) {
+        alert(JSON.stringify(error));
+    });	
+}
+
+//메타테이블 항목 상세
+const dpIngestMetaTblTbl = function (table_idntfc_id) {
+	
+	const data = {
+   		url: '/dp/ingest/meta/tables/table',
+   		user_id: 'user00',	
+   		table_idntfc_id: table_idntfc_id,
+    };
+	
+    $.ajax({
+        type: 'POST',
+        url: url+'/dpIngestMetaTblTbl',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+    }).done(function (data) {
+	  	  if (data != null) {
+  	    	if(data.contents != ""){
+  	    		$("#table_idntfc_id").val(table_idntfc_id);
+	  	    	$("#table_korean_nm").val(data.contents[0].table_korean_nm);
+	  	    	$("#table_eng_nm").val(data.contents[0].table_eng_nm);
+	  	    	$("#temp_table_eng_nm").val(data.contents[0].table_eng_nm);
+	  	    	$("#dset_knd").val(data.contents[0].dset_knd).prop("selected", true);
+	  	    	$("#table_owner").val(data.contents[0].table_owner).prop("selected", true);
+	  	    	$("#physic_table_ty").val(data.contents[0].physic_table_ty).prop("selected", true);
+	  	    	$("#crud_se2").val(data.contents[0].crud_se).prop("selected", true);
+	  	    	$("#crud_dc2").val(data.contents[0].crud_dc);
+	  	    	$("#use_at2").val(data.contents[0].use_at).prop("selected", true);
+	  	    	$("#creat_table_at2").val(data.contents[0].creat_table_at);
+  	    	}
+	  	  }
     }).fail(function (error) {
         alert(JSON.stringify(error));
     });	
@@ -652,16 +744,167 @@ const dpIngestMetaTblSaveTbl = function (){
 	
 }
 
+//메타테이블 데이터셋 수정
+const dpIngestMetaTblUpdateDset = function (){
+	let dset_korean_nm = $('#dset_korean_nm').val();
+	let dset_lclas = $('#dset_lclas').val();
+	let dset_mclas = $('#dset_mclas').val();
+	let dset_sclas = $('#dset_sclas').val();
+	let use_at = $('#use_at').val();
+	let clct_mthd = $('#clct_mthd').val();
+	let clct_ty = $('#clct_ty').val();
+	let dset_owner = $('#dset_owner').val();
+	let crud_se = $('#crud_se').val();
+	let creat_table_at = $('#creat_table_at').val();
+	let dset_dc = $('#dset_dc').val();
+	let crud_dc = $('#crud_dc').val();
+	let dset_idntfc_id = $('#dset_idntfc_id').val();
+	
+	if(!dset_korean_nm){
+		alert("데이터셋 한글명을 입력하세요!");
+		$('#dset_korean_nm').focus();
+		return;
+	}
+	
+	const data = {
+   		url: '/dp/ingest/meta/tables/update/dataset',
+   		user_id: 'user00',
+   	    dset_owner: dset_owner,
+   	    dset_lclas: dset_lclas,
+   	    dset_mclas: dset_mclas,
+   	    dset_sclas: dset_sclas,
+   	    clct_mthd: 'openapi',
+   	    clct_ty: 'POSTGRESQL',
+   	    logic_db_nm: 'LX_DT_DMS',
+   	    dset_korean_nm: dset_korean_nm,
+   	    dset_dc: dset_dc,
+   	    idntfr: null,
+   	    supe_type_entity_nm: null,
+   	    entity_iem_nm: null,
+   	    crud_se: crud_se,
+   	    crud_dc: crud_dc,
+   	 	dset_idntfc_id: dset_idntfc_id,
+   	 	use_at: use_at,
+   	 	creat_table_at: creat_table_at,
+    };
+	
+	if(confirm("수정 하시겠습니까?")){
+	    $.ajax({
+	        type: 'POST',
+	        url: url+'/dpIngestMetaTblUpdateDset',
+	        dataType: 'json',
+	        contentType: 'application/json; charset=utf-8',
+	        data: JSON.stringify(data),
+	    }).done(function (data) {
+	  		alert("수정 되었습니다.");
+	  		dpIngestMetaTbl();
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });	
+	}
+	
+}
+
+//메타테이블 테이블 수정
+const dpIngestMetaTblUpdateTbl = function (){
+	let table_korean_nm = $('#table_korean_nm').val();
+	let table_eng_nm = $('#table_eng_nm').val().toLowerCase();
+	let temp_table_eng_nm = $('#temp_table_eng_nm').val().toLowerCase();
+	let dset_knd = $('#dset_knd').val();
+	let table_owner = $('#table_owner').val();
+	let physic_table_ty = $('#physic_table_ty').val();
+	let crud_se2 = $('#crud_se2').val();
+	let use_at2 = $('#use_at2').val();
+	let table_dc = $('#table_dc').val();
+	let crud_dc2 = $('#crud_dc2').val();
+	let rl_dset_idntfc_id = $('#dset_idntfc_id').val();
+	let table_idntfc_id = $('#table_idntfc_id').val();
+	let creat_table_at2 = $('#creat_table_at2').val();
+	
+	if(!table_korean_nm){
+		alert("테이블 한글명을 입력하세요!");
+		$('#table_korean_nm').focus();
+		return;
+	}
+	
+	if(!table_eng_nm){
+		alert("테이블 영문명을 입력하세요!");
+		$('#table_eng_nm').focus();
+		return;
+	}
+	
+	if(!rl_dset_idntfc_id){
+		alert("선택된 데이터셋 항목이 없습니다.");
+		return;
+	}
+	
+	if(table_eng_nm == temp_table_eng_nm){
+		duplicateYn = 'N';
+	}
+	
+	if(duplicateYn != 'N'){
+		if(duplicateYn == 'Y'){
+			alert("동일한 테이블 영문명이 있습니다.");
+		}else{
+			alert("중복 체크를 해주세요.");
+		}
+		$("#table_eng_nm").focus();
+		return;
+	}
+	
+	const data = {
+		url: '/dp/ingest/meta/tables/update/table',
+		user_id: 'user00',
+	    rl_dset_idntfc_id: rl_dset_idntfc_id,
+	    dset_knd: dset_knd,
+	    physicl_db_nm: 'LX_DT_DBS',
+	    table_owner: table_owner,
+	    table_eng_nm: table_eng_nm,
+	    table_korean_nm: table_korean_nm,
+	    physic_table_ty: physic_table_ty,
+	    rl_entity_idntfc_id: null,
+	    table_dc: table_dc,
+	    cl_systm: null,
+	    prsrv_pd: null,
+	    table_volum: null,
+	    occrrnc_cycle: null,
+	    othbc_at: null,
+	    iem_nm: null,
+	    crud_se: crud_se2,
+	    crud_dc: crud_dc2,
+		use_at: use_at2,
+		table_idntfc_id: table_idntfc_id,
+		creat_table_at: creat_table_at2,
+    };
+	
+	if(confirm("수정 하시겠습니까?")){
+	    $.ajax({
+	        type: 'POST',
+	        url: url+'/dpIngestMetaTblUpdateTbl',
+	        dataType: 'json',
+	        contentType: 'application/json; charset=utf-8',
+	        data: JSON.stringify(data),
+	    }).done(function (data) {
+	  		alert("수정 되었습니다.");   	
+	  		dpIngestMetaTbl();
+	  		
+	    }).fail(function (error) {
+	        alert(JSON.stringify(error));
+	    });	
+	}
+	
+}
+
 //테이블 중복체크
 const dpIngestMetaTblChk = function (){
 	let table_eng_nm = $('#table_eng_nm').val().toLowerCase();
+	let temp_table_eng_nm = $('#temp_table_eng_nm').val().toLowerCase();
 	
 	if(!table_eng_nm){
 		alert("테이블 영문명을 입력하세요!");
 		$('#table_korean_nm').focus();
 		return;
 	}
-	
 	
 	const data = {
 		url: '/dp/ingest/meta/tables/check',
@@ -691,8 +934,37 @@ const dpIngestMetaTblChk = function (){
 	
 }
 
+//메타 항목 상세
+const dpIngestMetaDetail = function (rl_dset_idntfc_id, table_idntfc_id) {
+	btnDetail();
+	dpIngestMetaTblDset(rl_dset_idntfc_id);
+	dpIngestMetaTblTbl(table_idntfc_id);
+}
+
+//메타데이터셋 저장 버튼
+const metaDsetSaveBtn = function () {
+	let type = $("#btn_type").val();
+	if(type == 'U'){
+		dpIngestMetaTblUpdateDset()
+	}else{
+		dpIngestMetaTblSaveDset();
+	}
+	
+}
+
+//메타테이블 저장 버튼
+const metaTblSaveBtn = function () {
+	let type = $("#btn_type").val();
+	if(type == 'U'){
+		dpIngestMetaTblUpdateTbl();
+	}else{
+		dpIngestMetaTblSaveTbl();
+	}
+}
+
 //추가 버튼
 const btnAdd = function(){
+	$("#btn_type").val('I');
 	if($("#tbl_layer").css("display") == "none"){
 	    $("#tbl_layer").show();
 	    dpCmCategoryDataset();
@@ -701,6 +973,14 @@ const btnAdd = function(){
 	} else {
 	    $("#tbl_layer").hide();
 	}
+}
+
+//상세 버튼
+const btnDetail = function(){
+	$("#btn_type").val('U');
+	$("#tbl_layer").show();
+    let offset = $('#dataset_layer').offset();
+    $('html').animate({scrollTop : offset.top}, 300);
 }
 
 const columnInfoList = function(tableIdntfcId){
