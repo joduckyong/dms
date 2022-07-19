@@ -31,13 +31,11 @@ public class MetaTableController {
 	@GetMapping("/list")
 	public String list(ModelMap model) throws Exception{
 		
-		
 		return "dms/metaTable/list";
 	}	
 	
 	@GetMapping("/metaInfo")
 	public String metaInfo(ModelMap model) throws Exception{
-		
 		
 		return "dms/metaTable/metaInfo";
 	}
