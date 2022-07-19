@@ -968,6 +968,7 @@ const btnAdd = function(){
 	if($("#tbl_layer").css("display") == "none"){
 	    $("#tbl_layer").show();
 	    dpCmCategoryDataset();
+	    initDetail();
 	    let offset = $('#dataset_layer').offset();
 	    $('html').animate({scrollTop : offset.top}, 300);
 	} else {
@@ -981,6 +982,33 @@ const btnDetail = function(){
 	$("#tbl_layer").show();
     let offset = $('#dataset_layer').offset();
     $('html').animate({scrollTop : offset.top}, 300);
+}
+
+//상세 초기화
+const initDetail = function(){
+	$("#dset_idntfc_id").val("");
+  	$("#dset_korean_nm").val("");
+  	$("#clct_mthd").val("");
+  	$("#dset_dc").val("");
+  	$("#clct_ty").val("");
+  	$("#dset_owner").val("S").prop("selected", true);
+  	$("#crud_se").val("C").prop("selected", true);
+  	$("#crud_dc").val("");
+  	$("#use_at").val("Y").prop("selected", true);
+  	$("#creat_table_at").val("");
+  	
+  	$("#table_idntfc_id").val("");
+  	$("#table_korean_nm").val("");
+  	$("#table_eng_nm").val("");
+  	$("#temp_table_eng_nm").val("");
+  	$("#dset_knd").val("D").prop("selected", true);
+  	$("#table_owner").val("S").prop("selected", true);
+  	$("#physic_table_ty").val("M").prop("selected", true);
+  	$("#crud_se2").val("C").prop("selected", true);
+  	$("#crud_dc2").val("");
+  	$("#use_at2").val("Y").prop("selected", true);
+  	$("#creat_table_at2").val("");
+  	
 }
 
 const columnInfoList = function(tableIdntfcId){
