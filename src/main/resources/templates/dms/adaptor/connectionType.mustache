@@ -19,7 +19,7 @@
 									<div class="x_content">
 										<div class="table_btns mb-2">
 											<button class="btn btn-primary" onclick="instanceSetAdd();">추가</button>
-											<button class="btn btn-danger" onclick="instanceSetDel();">삭제</button>
+											<button class="btn btn-danger" onclick="dpIngestItPpInfoDelChk();">삭제</button>
 											<button class="btn btn-success" onclick="dpIngestItPpInfoSave();">저장</button>
 										</div>
 										<div class="table_responsive">
@@ -55,8 +55,8 @@
 									<div class="x_content">
 										<div class="table_btns mb-2">
 											<button class="btn btn-primary" onclick="instanceSetConfigAdd();">+ 추가</button>
-											<button class="btn btn-danger" onclick="instanceSetConfigDel();">- 삭제</button>
-											<button class="btn btn-success" onclick="instanceSetConfigSave();">저장</button>
+											<button class="btn btn-danger" onclick="dpIngestItPpDtDelChk();">- 삭제</button>
+											<button class="btn btn-success" onclick="dpIngestItPpDtSave();">저장</button>
 										</div>
 										<div class="table_responsive">
 											<input type="hidden" id="hiddenConnectId" value=""> 
@@ -295,7 +295,7 @@ const dpIngestItPpDtDelChk = function(){
 		  	   	if(data.contents != ""){    	
 	    	   		 $.each(data.contents, function (idx, el) {
 	    	   			if(el.chk_yn == 'N'){
-	    	   				
+	    	   				dpIngestItPpDtDel(connect_id);
 	    	   			}
 	 	     	     });
 		  	   	}
@@ -328,7 +328,8 @@ const dpIngestItPpInfoDel = function(connect_id){
 	  		
 	  		let message = JSON.stringify(data.return_msg);
 	  		alert(message.replace(/\"/gi, ''));
-	    	
+	  		dpIngestItPpType();
+	  		
 	    }).fail(function (error) {
 	        alert(JSON.stringify(error));
 	    });		
@@ -337,11 +338,22 @@ const dpIngestItPpInfoDel = function(connect_id){
 //접속유형 항목관리 삭제전 체크
 const dpIngestItPpInfoDelChk = function(){
 	
+	var len = $("input[name='checkList']:checked").length;
+	if(len === 0){
+		alert("하나이상 선택해주세요!");
+		return;
+	}
+	
+	let connect_id;
+    $("input[name='checkList']:checked").each(function(e){
+        connect_id = $(this).val();
+    });
+    
 	const data = {
 	   		url: '/dp/ingest/instance/property/info/delete/check',
+	   		connect_id: connect_id,	
 	   		clct_mthd: $("#clct_mthd").val(),	
 	   		clct_ty: $("#clct_ty").val(),	
-	   		connect_id: $("#connect_id").val(),	
 	   		user_id: 'user00',	
 	   		menu_id: 'menu_id',
 	    };		
@@ -357,7 +369,7 @@ const dpIngestItPpInfoDelChk = function(){
 		  	   	if(data.contents != ""){    	
 	    	   		 $.each(data.contents, function (idx, el) {
 	    	   			if(el.chk_yn == 'N'){
-
+	    	   				dpIngestItPpInfoDel(connect_id);
 	    	   			}
 	 	     	     });
 		  	   	}
@@ -398,16 +410,22 @@ const dpIngestItPpInfoIdChk = function(){
 //Instance 설정정보 저장
 const dpIngestItPpDtSave = function(){
 
-	/*
-	dp_ingest_it_pp_dt_save
-	contents	
-		item
-		item_nm
-		item_described
-		display_seq
-		user_id
-	*/
-	let connect_id = $("#connect_id").val();
+	let connect_id;
+    $("input[name='checkList']:checked").each(function(e){
+        connect_id = $(this).val();
+    });
+    
+    const instanceSetConfigSaveData = [];
+    $.each($("#instanceSetDataConfig tbody tr"), function(){
+        const contents = {
+            item : $(this).find("#configItem").val(),
+            item_nm : $(this).find("#configIteNm").val(),
+            item_described : $(this).find("#configItemDescribed").val(),
+            display_seq : null
+        };
+        instanceSetConfigSaveData.push(contents);
+    });    
+    
 	const data = {
 	   		url: '/dp/ingest/instance/property/detail/save',
 	   		connect_id: connect_id,	
@@ -415,7 +433,7 @@ const dpIngestItPpDtSave = function(){
 	   		clct_ty: $("#clct_ty_"+connect_id).val(),	
 	   		user_id: 'user00',	
 	   		menu_id: 'menu_id',
-	   		contents: contents,
+	   		contents: instanceSetConfigSaveData,
 	    };		
 	    $.ajax({
 	        type: 'POST',
