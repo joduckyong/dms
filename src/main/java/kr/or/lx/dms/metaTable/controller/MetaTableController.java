@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,20 +31,19 @@ public class MetaTableController {
 	@GetMapping("/list")
 	public String list(ModelMap model) throws Exception{
 		
-		
 		return "dms/metaTable/list";
 	}	
 	
 	@GetMapping("/metaInfo")
 	public String metaInfo(ModelMap model) throws Exception{
 		
-		
 		return "dms/metaTable/metaInfo";
 	}
 	
-	@GetMapping("/columnInfo")
-	public String columnInfo(ModelMap model) throws Exception{
+	@GetMapping("/columnInfo/{tableIdntfcId}")
+	public String columnInfo(@PathVariable String tableIdntfcId, ModelMap model) throws Exception{
 		
+		model.addAttribute("table_idntfc_id", tableIdntfcId);
 		
 		return "dms/metaTable/columnInfo";
 	}

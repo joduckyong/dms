@@ -1,0 +1,34 @@
+ul.checktree, ul.checktree ul {
+ list-style-type: none;
+ padding: 0;
+ margin: 0;
+ font-size: 15px;
+}
+
+ul.checktree li {
+ background: url(../img/node.gif) no-repeat;
+ margin: 0;
+ padding: 0 0 0 16px;
+ cursor: default;
+}
+ul.checktree li.last {
+ background-image: url(../img/node-last.gif);
+}
+ul.checktree li.plus {
+ background-image: url(../img/plus.gif);
+}
+ul.checktree li.plus-last {
+ background-image: url(../img/plus-last.gif);
+}
+ul.checktree li.minus {
+ background-image: url(../img/minus.gif);
+}
+ul.checktree li.minus-last {
+ background-image: url(../img/minus-last.gif);
+}
+
+ul.checktree span.count {
+ text-indent: 5pt;
+ color: #999;
+ font-style: italic;
+}

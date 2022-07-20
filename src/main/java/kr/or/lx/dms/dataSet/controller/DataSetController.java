@@ -41,6 +41,13 @@ public class DataSetController {
 		return "dms/dataSet/detail";
 	}	
 	
+	@GetMapping("/metaDetail")
+	public String metaDetail(ModelMap model) throws Exception{
+		
+		
+		return "dms/dataSet/metaDetail";
+	}	
+	
 	@ResponseBody
 	@PostMapping("{apiId}")
 	public Object dataSetApi(@RequestBody Map<String, Object> param, ModelMap model) throws Exception{
