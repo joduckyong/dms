@@ -210,7 +210,7 @@ const dpIngestErrors = function (page, size_per_page) {
 		  	    	}
 		  	    	
 		  	    	insertTr += '<tr>';
-		  	    	insertTr += '	<td><span class="blue bold" style="cursor:pointer" onclick="dpIngestErrorsDt();">'+isEmpty(el.dset_korean_nm)+'</span></td>';
+		  	    	insertTr += '	<td><span class="blue bold" style="cursor:pointer" onclick="btnDetail(\''+el.instance_id+'\');">'+isEmpty(el.dset_korean_nm)+'</span></td>';
 		  	    	insertTr += '	<td>'+isEmpty(el.table_korean_nm)+'</td>';
 		  	    	insertTr += '	<td>'+isEmpty(el.clct_mthd)+'</td>';
 		  	    	insertTr += '	<td>'+isEmpty(el.clct_ty)+'</td>';
@@ -235,8 +235,8 @@ const dpIngestErrors = function (page, size_per_page) {
 }
 
 //수집오류 상세 조회
-const dpIngestErrorsDt = function () {
-	location.href = url+'/detail';
+const btnDetail = function (instance_id) {
+	location.href = url+'/detail/'+instance_id;
 }
 
 //페이징 함수 호출
