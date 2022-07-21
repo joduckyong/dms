@@ -474,6 +474,7 @@ const dpIngestMetaTbl = function (page, size_per_page) {
     }).done(function (data) {
     	
 	  	  if (data != null) {
+	  		$("#metaList").empty();
 	  		$("#total_count").text(data.totalcount);
   	    	if(data.contents != ""){
   	    		let insertTr = '';
@@ -1030,7 +1031,7 @@ const enterkey = function(e) {
 //분류 조회
 dpCmCategory();
 
-//메타테이블 목록 조회
+//수집오류 목록 조회
 dpIngestMetaTbl();
 
 </script>
