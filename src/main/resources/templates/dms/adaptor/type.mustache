@@ -270,14 +270,15 @@ const dpIngestPpType = function(){
 }
 
 //접속정보 설정 선택 삭제
-const dpIngestPpDtDel = function(adapter_type_id){
+const dpIngestPpDtDel = function(adapter_type_id, item){
 	
+	let message = '';
 	const data = {
 	   		url: '/dp/ingest/property/detail/delete',
 	   		adapter_type_id: adapter_type_id,	
-	   		clct_mthd: $("#clct_mthd").val(),	
-	   		clct_ty: $("#clct_ty").val(),	
-	   		item: $("#item").val(),	
+	   		clct_mthd: $("#clct_mthd_"+adapter_type_id).val(),	
+	   		clct_ty: $("#clct_ty_"+adapter_type_id).val(),	
+	   		item: item,	
 	   		user_id: 'user00',	
 	   		menu_id: 'menu_id',
 	    };		
@@ -289,48 +290,61 @@ const dpIngestPpDtDel = function(adapter_type_id){
 	        data: JSON.stringify(data)
 	    }).done(function (data) {
 	  		
-	  		let message = JSON.stringify(data.return_msg);
-	  		alert(message.replace(/\"/gi, ''));
+	    	message = JSON.stringify(data.return_msg);
 	    	
 	    }).fail(function (error) {
 	        alert(JSON.stringify(error));
 	    });	
+	    
+	    if(message !==''){
+		  	alert(message.replace(/\"/gi, ''));
+	    }	    
 }
 
 //접속정보 설정 삭제전 체크
 const dpIngestPpDtDelChk = function(){
 	
-	const data = {
-	   		url: '/dp/ingest/property/detail/delete/check',
-	   		adapter_type_id: adapter_type_id,	
-	   		clct_mthd: $("#clct_mthd").val(),	
-	   		clct_ty: $("#clct_ty").val(),	
-	   		item: $("#item").val(),	
-	   		user_id: 'user00',	
-	   		menu_id: 'menu_id',
-	    };		
-	    $.ajax({
-	        type: 'POST',
-	        url: url+'/dpIngestPpDtDelChk',
-	        dataType: 'json',
-	        contentType: 'application/json; charset-utf-8',
-	        data: JSON.stringify(data)
-	    }).done(function (data) {
-	  		
-	    	if (data != null) {
-		  	   	if(data.contents != ""){    	
-	    	   		 $.each(data.contents, function (idx, el) {
-	    	   			if(el.chk_yn == 'N'){
-	    	   				dpIngestPpDtDel(adapter_type_id);
-	    	   			}
-	 	     	     });
-		  	   	}
-	  	  } 
-	    	
-	    	
-	    }).fail(function (error) {
-	        alert(JSON.stringify(error));
-	    });
+	let adapter_type_id;
+    $("input[name='checkList']:checked").each(function(e){
+    	adapter_type_id = $(this).val();
+    });
+    
+    $.each($("#adaptorSetDataConfig tbody tr"), function(){
+    	
+    	let item = $(this).find("#configItem").val();
+    	
+		const data = {
+		   		url: '/dp/ingest/property/detail/delete/check',
+		   		adapter_type_id: adapter_type_id,	
+		   		clct_mthd: $("#clct_mthd_"+adapter_type_id).val(),	
+		   		clct_ty: $("#clct_ty_"+adapter_type_id).val(),	
+		   		item: item,	
+		   		user_id: 'user00',	
+		   		menu_id: 'menu_id',
+		    };		
+		    $.ajax({
+		        type: 'POST',
+		        url: url+'/dpIngestPpDtDelChk',
+		        dataType: 'json',
+		        contentType: 'application/json; charset-utf-8',
+		        data: JSON.stringify(data)
+		    }).done(function (data) {
+		  		
+		    	if (data != null) {
+			  	   	if(data.contents != ""){    	
+		    	   		 $.each(data.contents, function (idx, el) {
+		    	   			if(el.chk_yn == 'N'){
+		    	   				dpIngestPpDtDel(adapter_type_id, item);
+		    	   			}
+		 	     	     });
+			  	   	}
+		  	  } 
+		    	
+		    	
+		    }).fail(function (error) {
+		        alert(JSON.stringify(error));
+		    });
+    });   	
 }
 
 //Adapter 유형관리 선택 삭제
@@ -403,36 +417,6 @@ const dpIngestPpInfoDelChk = function(){
 	    });	
 }
 
-//Adapter 유형관리 ID 자동증가
-/*
-const dpIngestPpInfoIdChk = function(){
-	
-    const data = {
-	   		url: '/dp/ingest/property/info/id/check',
-	    };		
-	    
-	    $.ajax({
-	        type: 'POST',
-	        url: commonUrl+'/dpIngestPpInfoIdChk',
-	        dataType: 'json',
-	        contentType: 'application/json; charset-utf-8',
-	        data: JSON.stringify(data)
-	    }).done(function (data) {
-		  	  if (data != null) {
-			  	   	if(data.contents != ""){    	
-		    	   		 $.each(data.contents, function (idx, el) {
-			    	   		$("#adapter_type_id").val(el.adapter_type_id);
-		 	     	     });
-			  	   	}
-		  	  }
-	    	  
-	    }).fail(function (error) {
-	        alert(JSON.stringify(error));
-	    });	
-	    
-}
-*/
-
 //접속정보 설정 저장
 const dpIngestPpDtSave = function(){
 	
@@ -442,6 +426,7 @@ const dpIngestPpDtSave = function(){
     });
     
     const adaptorSetConfigSaveData = [];
+    let i = 1;
     $.each($("#adaptorSetDataConfig tbody tr"), function(){
         const contents = {
             item : $(this).find("#configItem").val(),
@@ -450,10 +435,11 @@ const dpIngestPpDtSave = function(){
             change_able_yn : $(this).find("#change_able_yn").val(),
             essential_yn : $(this).find("#essential_yn").val(),
             value : $(this).find("#configValue").val(),
-            display_seq : null,
-            adapter_type_id : adapterId
+            display_seq : i,
+            adapter_type_id : adapter_type_id
         };
         adaptorSetConfigSaveData.push(contents);
+        i++;
     });
     
 	const data = {
