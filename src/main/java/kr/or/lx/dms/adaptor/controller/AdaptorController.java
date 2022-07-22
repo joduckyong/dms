@@ -49,10 +49,10 @@ public class AdaptorController {
 		return "dms/adaptor/set";
 	}	
 	
-	@GetMapping("/operate")
-	public String operate(ModelMap model) throws Exception{
+	@GetMapping("/operate/{adapter_id}")
+	public String operate(@PathVariable String adapter_id, ModelMap model) throws Exception{
 		
-		
+		model.put("adapter_id", adapter_id);	
 		return "dms/adaptor/operate";
 	}	
 	

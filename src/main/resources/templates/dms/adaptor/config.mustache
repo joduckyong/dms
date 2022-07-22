@@ -187,7 +187,7 @@ const dpIngestAdapter = function (page, size_per_page) {
 	     		      insertTr += ' <td style="text-align: center;"><span class="blue bold" style="cursor:pointer" onclick=modModal("'+el.adapter_id+'");>'+isEmpty(el.adapter_nm)+'</span></td>';
 	     		      insertTr += ' <td style="text-align: center;">'+isEmpty(el.adapter_type_nm)+'</td>';
 	     		      insertTr += ' <td style="text-align: center;">';
-	     		      insertTr += '	<button class="btn btn-sm btn-primary" onclick=operationPage("'+ el.adapter_id +'")>운영</button>';
+	     		      insertTr += '	<button class="btn btn-sm btn-primary" onclick=adapterOPage("'+ el.adapter_id +'")>운영</button>';
 	     		      insertTr += '	<button class="btn btn-sm btn-primary" onclick=adapterDPage("'+ el.adapter_id +'")>상세</button>';
 	     		      insertTr += ' </td>';	     		      
 	                  insertTr += ' <td style="text-align: center;">'+isEmpty(el.use_yn)+'</td>';
@@ -550,6 +550,11 @@ const enterkey = function(e) {
 	if (e.keyCode == 13) {
 		dpIngestAdapter();
     }
+}
+
+//운영 페이지
+const adapterOPage = function(adapter_id){
+	location.href = url+'/operate/'+adapter_id;
 }
 
 //상세 페이지
